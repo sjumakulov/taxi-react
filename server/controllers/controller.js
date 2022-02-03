@@ -65,5 +65,3 @@ exports.update = (req, res) => {
   exports.records = records;
 };
 
-
-
