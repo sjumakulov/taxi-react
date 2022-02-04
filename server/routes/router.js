@@ -2,6 +2,12 @@ const express = require("express");
 const { getRecords } = require("../controllers/get");
 const { deletePerson } = require("../controllers/delete");
 const {
+  updateCompany,
+  updatePerson,
+  updatePrice,
+} = require("../controllers/put");
+
+const {
   createPerson,
   createCompany,
   createPayTransaction,
@@ -23,14 +29,16 @@ route.post("/companies", createCompany);
 route.post("/pay", createPayTransaction);
 
 // remove one person:
-route.delete("/persons/", deletePerson);
+route.delete("/person/", deletePerson);
 
-// // update one record in database:
-// route.put("/records/:id", controller.update);
+// update one person in database:
+route.put("/person/", updatePerson);
 
+// update one company in database:
+route.put("/company/", updateCompany);
 
-
+// update price in database:
+route.put("/price/", updatePrice);
 
 // we are exporting our route const so that we can call it from our server.js
 module.exports = route;
-

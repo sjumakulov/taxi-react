@@ -5,84 +5,95 @@ const {
 } = require("../database/sjdb");
 const { getData, getIDs, makeid, addPayHistStatus } = require("./functions");
 
+// ! Add person info in the same order! //
 // create one record in data files:==========================
 exports.createPerson = (req, res) => {
-  if (!req.body) {
-    res.status(400).send({ message: "Content cannot be empty!" });
+  let car_id = req.body.car_num.replaceAll(" ", ""),
+    company_id = req.body.company_id;
+
+  if (!car_id || !company_id) {
+    res.status(400).send("Car_num || company_id cannot be empty!");
     return;
-  } else {
-    let data = getData(["cars"]);
-    // getting IDs:
-    let { IDs, car_IDs } = getIDs();
+  } else if (car_id && company_id) {
+    let { companies } = getData(["companies"]);
 
-    // generating unique IDs:
-    let person_id = makeid(20, IDs);
-
-    // time now:
-    let now = new Date().toLocaleString();
-
-    // checking if main_driver exists or not:
-    let currentCarID = req.body.car_num.replaceAll(" ", "");
-    let carExists = car_IDs.includes(currentCarID);
-    let carHasMainDriver = carExists
-      ? data.cars[currentCarID].main_driver
-      : false;
-
-    // adding data to temporary object:
-    let recordObject = {
-      person_id: person_id,
-      ...req.body,
-      is_main_driver: req.body.is_main_driver? !carHasMainDriver: false,
-      med_start_date: now,
-      polis_start_date: now,
-      contract_start_date: now,
-      permission_start_date: now,
-      gas_tank_start_date: now,
-      checkup_start_date: now,
-      work_contract_start_date: now,
-    };
-    // writing this person to CSV:
-    appendToCSV(recordObject);
-
-    // writing to cars.json:
-    if (carExists) {
-      if (eval(recordObject.is_main_driver)) {
-        let oldObject_car = data.cars[currentCarID];
-        let updatedObject_car = { ...oldObject_car, main_driver: person_id };
-        updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
-
-        // opening payment history and status for main driver:
-        addPayHistStatus(person_id);
-      } else {
-        let oldObject_car = data.cars[currentCarID];
-        let updatedObject_car = {
-          ...oldObject_car,
-          other_drivers: [...oldObject_car.other_drivers, person_id],
-        };
-        updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
-      }
+    if (!companies[company_id]) {
+      res.status(400).send("Company with this ID not found!");
     } else {
-      if (eval(recordObject.is_main_driver)) {
-        let object_car = {
-          [currentCarID]: {
-            main_driver: person_id,
-            car_type: recordObject.car_type,
-            other_drivers: [],
-          },
-        };
-        addObjectToJSONFile(object_car, "cars.json");
+      res.status(201).send("Record created!");
+      let data = getData(["cars"]);
+      // getting IDs:
+      let { IDs, car_IDs } = getIDs();
 
-        // opening payment history and status for main driver:
-        addPayHistStatus(person_id);
+      // generating unique IDs:
+      let person_id = makeid(20, IDs);
+
+      // time now:
+      let now = new Date().toLocaleString();
+
+      // checking if main_driver exists or not:
+      let currentCarID = req.body.car_num.replaceAll(" ", "");
+      let carExists = car_IDs.includes(currentCarID);
+      let carHasMainDriver = carExists
+        ? data.cars[currentCarID].main_driver
+        : false;
+
+      // adding data to temporary object:
+      let recordObject = {
+        person_id: person_id,
+        ...req.body,
+        is_main_driver: req.body.is_main_driver ? !carHasMainDriver : false,
+        med_start_date: now,
+        polis_start_date: now,
+        contract_start_date: now,
+        permission_start_date: now,
+        gas_tank_start_date: now,
+        checkup_start_date: now,
+        work_contract_start_date: now,
+      };
+      // writing this person to CSV:
+      appendToCSV(recordObject);
+
+      // writing to cars.json:
+      if (carExists) {
+        if (eval(recordObject.is_main_driver)) {
+          let oldObject_car = data.cars[currentCarID];
+          let updatedObject_car = { ...oldObject_car, main_driver: person_id };
+          updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
+
+          // opening payment history and status for main driver:
+          addPayHistStatus(person_id);
+        } else {
+          let oldObject_car = data.cars[currentCarID];
+          let updatedObject_car = {
+            ...oldObject_car,
+            other_drivers: [...oldObject_car.other_drivers, person_id],
+          };
+          updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
+        }
       } else {
-        let object_car = {
-          [currentCarID]: {
-            main_driver: "",
-            car_type: recordObject.car_type,
-            other_drivers: [person_id],
-          },
-        };
-        addObjectToJSONFile(object_car, "cars.json");
+        if (eval(recordObject.is_main_driver)) {
+          let object_car = {
+            [currentCarID]: {
+              main_driver: person_id,
+              car_type: recordObject.car_type,
+              other_drivers: [],
+            },
+          };
+          addObjectToJSONFile(object_car, "cars.json");
+
+          // opening payment history and status for main driver:
+          addPayHistStatus(person_id);
+        } else {
+          let object_car = {
+            [currentCarID]: {
+              main_driver: "",
+              car_type: recordObject.car_type,
+              other_drivers: [person_id],
+            },
+          };
+          addObjectToJSONFile(object_car, "cars.json");
+        }
       }
     }
   }
