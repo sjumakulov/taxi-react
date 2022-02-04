@@ -67,11 +67,12 @@ exports.updateRecordInCSV = (oldRecordObject, updatedRecordObject) => {
 
 // Remove a line from CSV:=====================================
 exports.deleteRecordInCSV = (recordObject) => {
+ 
   const stringifiedObject = stringifyCSV(recordObject);
 
   const options = {
     files: "database/persons.csv",
-    from: stringifiedObject + "\n",
+    from: stringifiedObject,
     to: "",
   };
 
@@ -161,7 +162,9 @@ exports.updateObjectInJSON = (oldObject, updatedObject, fileName) => {
 //==================================================
 
 // Delete one object in JSON file:==============================
-exports.deleteObjectInJSON = (recordObject, index, fileName) => {
+exports.deleteObjectInJSON = (wholeJSON, ID, fileName) => {
+  let index = Object.keys(wholeJSON).indexOf(ID),
+    recordObject = { [ID]: { ...wholeJSON[ID] } };
   let stringifiedObject = "";
   if (index === 0) {
     stringifiedObject = JSON.stringify(recordObject).slice(1, -1) + ",";

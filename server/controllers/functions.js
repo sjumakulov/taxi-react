@@ -20,7 +20,7 @@ function getData(types) {
   }
   return data;
 }
-exports.getData = getData;
+exports.getData = getData; 
 
 // Function that gets all ids:====================================
 exports.getIDs = () => {
