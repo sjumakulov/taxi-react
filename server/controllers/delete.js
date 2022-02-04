@@ -1,9 +1,4 @@
-const {
-  deleteRecordInCSV,
-  updateObjectInJSON,
-  deleteObjectInJSON,
-  writeJSON,
-} = require("../database/sjdb");
+const { deleteRecordInCSV, writeJSON } = require("../database/sjdb");
 const { getData } = require("./functions");
 
 exports.deletePerson = (req, res) => {
@@ -12,7 +7,6 @@ exports.deletePerson = (req, res) => {
   if (!person_id) {
     res.status(400).send("record not found 1");
     return;
-
   } else if (person_id) {
     let { persons, cars } = getData(["persons", "cars"]);
     let [thisPerson] = persons.filter((person) => {
@@ -28,8 +22,6 @@ exports.deletePerson = (req, res) => {
 
       return;
     } else if (thisPerson && thisCar) {
-      res.status(200).send("record deleted!");
-
       const { payment_status, payment_history } = getData([
         "payment_status",
         "payment_history",
@@ -71,21 +63,7 @@ exports.deletePerson = (req, res) => {
       }
       writeJSON(cars, "cars.json");
 
-      // identify if is_main_driver === true:
-      if (isMainDriver) {
-        // delete from payment_status if THIS Person is MAIN_DRIVER:
-        deleteObjectInJSON(payment_status, person_id, "payment_status.json");
-
-        // delete from payment_history if THIS Person is MAIN_DRIVER:
-        Object.keys(payment_history).forEach((year) => {
-          if (payment_history[year][person_id]) {
-            let old_obj = { [year]: { ...payment_history[year] } };
-            let new_obj = JSON.parse(JSON.stringify(old_obj));
-            delete new_obj[year][person_id];
-            updateObjectInJSON(old_obj, new_obj, "payment_history.json");
-          }
-        });
-      }
+      res.status(200).send("record deleted!");
     }
   }
 };

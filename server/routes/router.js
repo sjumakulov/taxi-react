@@ -29,16 +29,16 @@ route.post("/companies", createCompany);
 route.post("/pay", createPayTransaction);
 
 // remove one person:
-route.delete("/person/", deletePerson);
+route.delete("/person", deletePerson);
 
 // update one person in database:
-route.put("/person/", updatePerson);
+route.put("/person", updatePerson);
 
 // update one company in database:
-route.put("/company/", updateCompany);
+route.put("/company", updateCompany);
 
 // update price in database:
-route.put("/price/", updatePrice);
+route.put("/price", updatePrice);
 
 // we are exporting our route const so that we can call it from our server.js
 module.exports = route;

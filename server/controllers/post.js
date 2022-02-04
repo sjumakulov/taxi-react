@@ -1,9 +1,12 @@
+const { appendToCSV, writeJSON } = require("../database/sjdb");
 const {
-  appendToCSV,
-  updateObjectInJSON,
-  addObjectToJSONFile,
-} = require("../database/sjdb");
-const { getData, getIDs, makeid, addPayHistStatus } = require("./functions");
+  getData,
+  getIDs,
+  makeid,
+  addPayHistStatus,
+  addTransaction,
+  updatePaymentStatus,
+} = require("./functions");
 
 // ! Add person info in the same order! //
 // create one record in data files:==========================
@@ -20,8 +23,7 @@ exports.createPerson = (req, res) => {
     if (!companies[company_id]) {
       res.status(400).send("Company with this ID not found!");
     } else {
-      res.status(201).send("Record created!");
-      let data = getData(["cars"]);
+      let { cars } = getData(["cars"]);
       // getting IDs:
       let { IDs, car_IDs } = getIDs();
 
@@ -34,15 +36,15 @@ exports.createPerson = (req, res) => {
       // checking if main_driver exists or not:
       let currentCarID = req.body.car_num.replaceAll(" ", "");
       let carExists = car_IDs.includes(currentCarID);
-      let carHasMainDriver = carExists
-        ? data.cars[currentCarID].main_driver
-        : false;
+      let carHasMainDriver = carExists ? cars[currentCarID].main_driver : false;
 
       // adding data to temporary object:
       let recordObject = {
         person_id: person_id,
         ...req.body,
-        is_main_driver: req.body.is_main_driver ? !carHasMainDriver : false,
+        is_main_driver: eval(req.body.is_main_driver)
+          ? !carHasMainDriver
+          : false,
         med_start_date: now,
         polis_start_date: now,
         contract_start_date: now,
@@ -56,45 +58,37 @@ exports.createPerson = (req, res) => {
 
       // writing to cars.json:
       if (carExists) {
+        // opening payment history and status for main driver:
+        addPayHistStatus(car_id);
         if (eval(recordObject.is_main_driver)) {
-          let oldObject_car = data.cars[currentCarID];
-          let updatedObject_car = { ...oldObject_car, main_driver: person_id };
-          updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
-
-          // opening payment history and status for main driver:
-          addPayHistStatus(person_id);
+          cars[currentCarID].main_driver = person_id;
+          writeJSON(cars, "cars.json");
         } else {
-          let oldObject_car = data.cars[currentCarID];
-          let updatedObject_car = {
-            ...oldObject_car,
-            other_drivers: [...oldObject_car.other_drivers, person_id],
-          };
-          updateObjectInJSON(oldObject_car, updatedObject_car, "cars.json");
+          cars[currentCarID].other_drivers.push(person_id);
+          writeJSON(cars, "cars.json");
         }
-      } else {
+      } else if (!carExists) {
+        // opening payment history and status for main driver:
+        addPayHistStatus(car_id);
         if (eval(recordObject.is_main_driver)) {
-          let object_car = {
-            [currentCarID]: {
-              main_driver: person_id,
-              car_type: recordObject.car_type,
-              other_drivers: [],
-            },
+          cars[currentCarID] = {
+            main_driver: person_id,
+            car_type: recordObject.car_type,
+            other_drivers: [],
           };
-          addObjectToJSONFile(object_car, "cars.json");
-
-          // opening payment history and status for main driver:
-          addPayHistStatus(person_id);
+          writeJSON(cars, "cars.json");
         } else {
-          let object_car = {
-            [currentCarID]: {
-              main_driver: "",
-              car_type: recordObject.car_type,
-              other_drivers: [person_id],
-            },
+          cars[currentCarID] = {
+            main_driver: "",
+            car_type: recordObject.car_type,
+            other_drivers: [person_id],
           };
-          addObjectToJSONFile(object_car, "cars.json");
+
+          writeJSON(cars, "cars.json");
         }
       }
+
+      res.status(201).send("Record created!");
     }
   }
   // res.redirect("/");
@@ -102,113 +96,45 @@ exports.createPerson = (req, res) => {
 
 //createCompany==========================================
 exports.createCompany = (req, res) => {
+  if (!req.body.name || !req.body.color) {
+    res.status(400).send("Name and Color cannot be empty!");
+    return;
+  }
   // getting IDs:
   let { IDs } = getIDs();
 
   // generating unique IDs:
   let company_id = makeid(20, IDs);
 
-  let obj_company = {
-    [company_id]: {
-      ...req.body,
-    },
-  };
-  addObjectToJSONFile(obj_company, "companies.json");
+  let { companies } = getData(["companies"]);
+  companies[company_id] = req.body;
+
+  writeJSON(companies, "companies.json");
+
+  res.status(201).send("company created!");
 };
 
 // createPayTransaction ==============================
 exports.createPayTransaction = (req, res) => {
-  let { person_id, putyovka_given, cash, card, debt_deadline } = req.body;
+  let { car_num, putyovka_given, cash, card, debt_deadline } = req.body;
+  let { cars } = getData(["cars"]);
+  if (!car_num || !cars[car_num.replaceAll(" ", "")]) {
+    res.status(400).send(`car with this ${car_num} number not found!`);
+    return;
+  }
+
   let transaction = {
     payment_date: new Date().toLocaleString(),
     cash: cash,
     card: card,
   };
+  let car_id = car_num.replaceAll(" ", "");
+  addTransaction(car_id, putyovka_given, transaction);
+  updatePaymentStatus(car_id, putyovka_given, transaction, debt_deadline);
 
-  addTransaction(person_id, putyovka_given, transaction);
-  updatePaymentStatus(person_id, putyovka_given, transaction, debt_deadline);
+  res.status(201).send("Transaction added to: " + car_id);
 };
 
-function addTransaction(person_id, putyovka_given, transaction) {
-  let { payment_history } = getData(["payment_history"]);
-  let date = new Date(),
-    thisYear = date.getFullYear(),
-    thisMonth = date.getMonth();
 
-  let thisYears_obj = payment_history[thisYear],
-    thisPerson_obj = thisYears_obj[person_id],
-    thisMonth_obj = thisPerson_obj[thisMonth];
 
-  if (thisMonth_obj) {
-    let old_obj = {
-      [person_id]: JSON.parse(JSON.stringify(thisPerson_obj)),
-    };
-    let updated_obj = {
-      [person_id]: JSON.parse(JSON.stringify(thisPerson_obj)),
-    };
-    updated_obj[person_id][thisMonth].putyovka_given = putyovka_given;
-    updated_obj[person_id][thisMonth].history.push(transaction);
 
-    // updating "payment_history.json":
-    updateObjectInJSON(old_obj, updated_obj, "payment_history.json");
-  } else {
-    let old_obj = {
-      [person_id]: JSON.parse(JSON.stringify(thisPerson_obj)),
-    };
-    let updated_obj = {
-      [person_id]: JSON.parse(JSON.stringify(thisPerson_obj)),
-    };
-    let thisMonth_obj = {
-      putyovka_given: putyovka_given,
-      history: [transaction],
-    };
-    updated_obj[person_id][thisMonth] = thisMonth_obj;
-
-    // updating "payment_history.json":
-    updateObjectInJSON(old_obj, updated_obj, "payment_history.json");
-  }
-}
-
-// update payment status for this person:
-function updatePaymentStatus(
-  person_id,
-  putyovka_given,
-  transaction,
-  debt_deadline
-) {
-  let { payment_status } = getData(["payment_status"]);
-
-  let pay_status_old_obj = { [person_id]: { ...payment_status[person_id] } };
-
-  let paymentAmount =
-      (parseInt(transaction.cash) || 0) + (parseInt(transaction.card) || 0),
-    currentBalance = parseInt(payment_status[person_id].balance) || 0,
-    newBalance = currentBalance + paymentAmount,
-    debt_start_date = debt_deadline ? new Date().toLocaleString() : "";
-
-  console.log(
-    "paymentAmount: ",
-    paymentAmount,
-    "currentBalance: ",
-    currentBalance,
-    "newBalance: ",
-    newBalance
-  );
-  let pay_status_updated_obj = {
-    [person_id]: {
-      ...payment_status[person_id],
-      putyovka_given: putyovka_given,
-      balance: newBalance,
-      debt_start_date: debt_start_date,
-      debt_deadline: debt_deadline,
-    },
-  };
-
-  // update payment status for this person:
-  updateObjectInJSON(
-    pay_status_old_obj,
-    pay_status_updated_obj,
-    "payment_status.json"
-  );
-}
-//===========================================================

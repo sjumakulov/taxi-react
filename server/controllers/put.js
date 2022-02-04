@@ -1,10 +1,5 @@
-const {
-  addObjectToJSONFile,
-  updateObjectInJSON,
-  writeJSON,
-  updateRecordInCSV,
-} = require("../database/sjdb");
-const { getData } = require("./functions");
+const { writeJSON, updateRecordInCSV } = require("../database/sjdb");
+const { getData, addPayHistStatus } = require("./functions");
 
 // update one person: // ! Add person info in the same order! //
 exports.updatePerson = (req, res) => {
@@ -45,20 +40,33 @@ exports.updatePerson = (req, res) => {
                 res.status(400).send("This car already has main_driver!");
                 return;
               } else if (!thisCarHasMainDriver) {
-                // remove this person fro old car's main_driver:
-                cars[carIDBefore].main_driver = "";
+                // remove this person from old car's main_driver:
+                if (cars[carIDBefore].other_drivers.length) {
+                  cars[carIDBefore].main_driver = "";
+                } else {
+                  delete cars[carIDBefore];
+                }
                 // add this person this new car's main_driver:
                 cars[carIDNow].main_driver = person_id;
 
                 // write to cars.json
               }
             } else if (!cars[carIDNow]) {
+              // remove this person from old car's main_driver:
+              if (cars[carIDBefore].other_drivers.length) {
+                cars[carIDBefore].main_driver = "";
+              } else {
+                delete cars[carIDBefore];
+              }
               cars[carIDNow] = {
                 main_driver: person_id,
                 car_type: req.body.car_type,
                 other_drivers: [],
               };
               // write to cars.json.
+
+              // open payment status and history:
+              addPayHistStatus(carIDNow);
             }
           }
         } else if (!isMainDriver) {
@@ -67,7 +75,12 @@ exports.updatePerson = (req, res) => {
             cars[carIDNow].other_drivers.push(person_id);
           } else if (!sameCar) {
             // remove this person fro old car's main_driver:
-            cars[carIDBefore].main_driver = "";
+            if (cars[carIDBefore].other_drivers.length) {
+              cars[carIDBefore].main_driver = "";
+            } else {
+              delete cars[carIDBefore];
+            }
+
             if (cars[carIDNow]) {
               // add this person this new car's other_drivers:
               cars[carIDNow].other_drivers.push(person_id);
@@ -79,6 +92,9 @@ exports.updatePerson = (req, res) => {
                 other_drivers: [person_id],
               };
               // write to cars.json.
+
+              // open payment status and history:
+              addPayHistStatus(carIDNow);
             }
           }
         }
@@ -91,6 +107,7 @@ exports.updatePerson = (req, res) => {
                 .send(`This ${carIDNow} car already has main_driver!`);
               return;
             } else {
+              
               cars[carIDNow].main_driver = person_id;
               let other_drivers = cars[carIDNow].other_drivers.filter(
                 (driver) => {
@@ -115,6 +132,12 @@ exports.updatePerson = (req, res) => {
                   }
                 );
                 cars[carIDBefore].other_drivers = other_drivers;
+                if (
+                  !cars[carIDBefore].main_driver &&
+                  cars[carIDBefore].other_drivers.length <= 1
+                ) {
+                  delete cars[carIDBefore];
+                }
 
                 // put this person in this car's main_driver:
                 cars[carIDNow].main_driver = person_id;
@@ -128,7 +151,12 @@ exports.updatePerson = (req, res) => {
                 }
               );
               cars[carIDBefore].other_drivers = other_drivers;
-
+              if (
+                !cars[carIDBefore].main_driver &&
+                cars[carIDBefore].other_drivers.length <= 1
+              ) {
+                delete cars[carIDBefore];
+              }
 
               cars[carIDNow] = {
                 main_driver: person_id,
@@ -136,18 +164,30 @@ exports.updatePerson = (req, res) => {
                 other_drivers: [],
               };
               // write to cars.json.
+
+              // open payment status and history:
+              addPayHistStatus(carIDNow);
             }
           }
         } else if (!isMainDriver) {
           if (sameCar) {
             // don't update cars.json.
           } else if (!sameCar) {
+            
             // remove this person from old car's other_drivers:
             let other_drivers = cars[carIDBefore].other_drivers.filter(
               (driver) => {
                 return driver !== person_id;
               }
             );
+            cars[carIDBefore].other_drivers = other_drivers;
+            if (
+              !cars[carIDBefore].main_driver &&
+              cars[carIDBefore].other_drivers.length <= 1
+            ) {
+              delete cars[carIDBefore];
+            }
+
             cars[carIDBefore].other_drivers = other_drivers;
             if (cars[carIDNow]) {
               // put this person in this car's other_drivers:
@@ -159,11 +199,16 @@ exports.updatePerson = (req, res) => {
                 car_type: req.body.car_type,
                 other_drivers: [person_id],
               };
+
+              // open payment status and history:
+              addPayHistStatus(carIDNow);
             }
           }
         }
       }
-// updating persons.csv:
+
+
+      // updating persons.csv:
       // updating start dates:
       let receivedKeys = Object.keys(req.body);
       let newStartDates = {};
@@ -185,6 +230,9 @@ exports.updatePerson = (req, res) => {
       console.log(updatedPerson);
       console.log(cars);
 
+      updateRecordInCSV(thisPerson, updatedPerson);
+      writeJSON(cars, "cars.json");
+
       console.log("thisPerson", thisPerson);
       console.log("req.body", req.body);
     }
@@ -192,12 +240,44 @@ exports.updatePerson = (req, res) => {
   }
 
   // update person.csv:
-  // updateRecordInCSV(oldRecordObject, updatedRecordObject)
   // update cars.json:
 };
 
-// update one company:
-exports.updateCompany = (req, res) => {};
+// update a company:
+exports.updateCompany = (req, res) => {
+  let {companies} = getData(["companies"]);
+  let {company_id, name, color} = req.body;
 
-// update one person:
-exports.updatePrice = (req, res) => {};
+  if(!company_id || !name || !color){
+    res.status(400).send("Empty content isn't allowed!");
+    return;
+  }else if(!companies[company_id]){
+    res.status(400).send(`Company with this ${company_id} ID not found!`);
+    return;
+  }
+
+  companies[company_id] = {name: name, color: color};
+  writeJSON(companies, "companies.json");
+
+  res.status(201).send(`Company updated!`);
+};
+
+
+// update price:
+exports.updatePrice = (req, res) => {
+  let {other} = getData(["other"]),
+  newPrice = parseInt(req.body.price);
+
+  if(!newPrice || newPrice<0){
+    res.status(400).send("Invalid price provided!");
+    return;
+  } 
+
+  other.price = newPrice;
+
+  writeJSON(other ,"other.json");
+
+  res.status(201).send(`Price set to ${newPrice}`);
+};
+
+

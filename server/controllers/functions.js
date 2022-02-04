@@ -1,26 +1,20 @@
-const {
-  readCSV,
-  readJSON,
-  addObjectToJSONFile,
-  updateObjectInJSON,
-  writeJSON,
-} = require("../database/sjdb");
+const { readCSV, readJSON, writeJSON } = require("../database/sjdb");
 
 // Function that gets all data from data files:============
 function getData(types) {
   let data = {};
-  for(let i=0; i<types.length; i++){
+  for (let i = 0; i < types.length; i++) {
     let thisType = types[i];
 
-    if(thisType === "persons"){
+    if (thisType === "persons") {
       data[thisType] = readCSV();
-    }else{
+    } else {
       data[thisType] = readJSON(thisType + ".json");
     }
   }
   return data;
 }
-exports.getData = getData; 
+exports.getData = getData;
 
 // Function that gets all ids:====================================
 exports.getIDs = () => {
@@ -35,37 +29,33 @@ exports.getIDs = () => {
 };
 
 // opening pay_status and pay_history if a person is main_driver:
-exports.addPayHistStatus = (person_id) => {
+exports.addPayHistStatus = (car_id) => {
   let thisYear = new Date().getFullYear();
-  let { payment_history } = getData(["payment_history"]),
-    thisYears_obj = payment_history[thisYear];
+  let { payment_history, payment_status } = getData([
+    "payment_history",
+    "payment_status",
+  ]);
 
-  if (thisYears_obj) {
-    let old_obj = { [thisYear]: JSON.parse(JSON.stringify(thisYears_obj)) };
-    let updated_obj = { [thisYear]: JSON.parse(JSON.stringify(thisYears_obj)) };
-    updated_obj[thisYear][person_id] = {};
+  if (payment_history[thisYear]) {
+    payment_history[thisYear][car_id] = {};
+
     // updating "payment_history.json":
-    updateObjectInJSON(old_obj, updated_obj, "payment_history.json");
+    writeJSON(payment_history, "payment_history.json");
   } else {
-    let object_pay_history = {
-      [thisYear]: {
-        [person_id]: {},
-      },
-    };
+    payment_history[thisYear] = { [car_id]: {} };
     // adding new year to "payment_history.json":
-    addObjectToJSONFile(object_pay_history, "payment_history.json");
+    writeJSON(payment_history, "payment_history.json");
   }
 
   // writing to payment_status.json:
-  let object_paymentStatus = {
-    [person_id]: {
-      balance: 0,
-      debt_start_date: "",
-      debt_deadline: "",
-      putyovka_given: false,
-    },
+  payment_status[car_id] = {
+    balance: 0,
+    debt_start_date: "",
+    debt_deadline: "",
+    putyovka_given: false,
   };
-  addObjectToJSONFile(object_paymentStatus, "payment_status.json");
+
+  writeJSON(payment_status, "payment_status.json");
 };
 
 // Defining id generator:=====================================
@@ -87,11 +77,60 @@ exports.makeid = (length, IDs) => {
     for (var i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-  } 
+  }
   return result;
 };
 //=============================================================
 
+exports.addTransaction = (car_id, putyovka_given, transaction) => {
+  let { payment_history } = getData(["payment_history"]);
+  let date = new Date(),
+    thisYear = date.getFullYear(),
+    thisMonth = date.getMonth();
+
+  if (payment_history[thisYear][car_id][thisMonth]) {
+    payment_history[thisYear][car_id][thisMonth].putyovka_given =
+      putyovka_given;
+    payment_history[thisYear][car_id][thisMonth].history.push(transaction);
+    writeJSON(payment_history, "payment_history.json");
+  } else {
+    let thisMonth_obj = {
+      putyovka_given: putyovka_given,
+      history: [transaction],
+    };
+    payment_history[thisYear][car_id][thisMonth] = thisMonth_obj;
+
+    // updating "payment_history.json":
+    writeJSON(payment_history, "payment_history.json");
+  }
+};
+
+// update payment status for this person:
+exports.updatePaymentStatus = (
+  car_id,
+  putyovka_given,
+  transaction,
+  debt_deadline
+) => {
+  let { payment_status } = getData(["payment_status"]);
+
+  let paymentAmount =
+      (parseInt(transaction.cash) || 0) + (parseInt(transaction.card) || 0),
+    currentBalance = parseInt(payment_status[car_id].balance) || 0,
+    newBalance = currentBalance + paymentAmount,
+    debt_start_date = debt_deadline ? new Date().toLocaleString() : "";
+
+  payment_status[car_id] = {
+    putyovka_given: putyovka_given,
+    balance: newBalance,
+    debt_start_date: debt_start_date,
+    debt_deadline: debt_deadline,
+  };
+
+  // update payment status for this car:
+  writeJSON(payment_status, "payment_status.json");
+};
+//===========================================================
 
 // function that that gets called every month and updates payment_status.json:
 function setPaymentStatus() {
@@ -103,7 +142,6 @@ function setPaymentStatus() {
     let { payment_status } = getData(["payment_status"]),
       IDs = Object.keys(payment_status);
 
-
     for (let i = 0; i < IDs.length - 1; i++) {
       let currentStatus = payment_status[IDs[i]];
       if (eval(currentStatus.putyovka_given)) {
@@ -112,17 +150,15 @@ function setPaymentStatus() {
         currentStatus.balance = newBalance;
         currentStatus.putyovka_given = false;
       }
-    }  
+    }
 
     let date = new Date();
-    let last_day = new Date(date.getFullYear(), date.getMonth()+1, 0, 0);
+    let last_day = new Date(date.getFullYear(), date.getMonth() + 1, 0, 0);
     other.last_day_month = last_day.toLocaleString();
 
     writeJSON(payment_status, "payment_status.json");
     writeJSON(other, "other.json");
   }
-
-
-} 
+}
 setPaymentStatus();
- //===================================================
+//===================================================
