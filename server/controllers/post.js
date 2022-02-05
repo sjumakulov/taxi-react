@@ -11,6 +11,7 @@ const {
 // ! Add person info in the same order! //
 // create one record in data files:==========================
 exports.createPerson = (req, res) => {
+  console.log("received data:", req.body)
   let car_id = req.body.car_num.replaceAll(" ", ""),
     company_id = req.body.company_id;
 

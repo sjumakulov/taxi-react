@@ -20,6 +20,9 @@ app.use(bodyparser.urlencoded({extended:true}));
 // setting cors for react-app to be able to access our server:
 app.use(cors()); 
 
+// so that our server can understand received data from the client:
+app.use(express.json());
+
 // loading Routes:
 app.use('/', require('./routes/router'))
 

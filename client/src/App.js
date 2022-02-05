@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
+import Popupform from "./components/Navbar/Popupform";
 import Person from "./components/Person/Person";
 
 function App() {
@@ -23,44 +24,78 @@ function App() {
       .catch((err) => console.log("error"));
   };
 
-  // console.log(data)
-  // Persons();
-  // console.log(data);
-  // const saveGames = () => {
-  //   fetch("http://localhost:9000/game", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       name: formData, // Use your own property name / key
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((result) => setData(result.rows))
-  //     .catch((err) => console.log("error"));
-  // };
+  let [
+    {
+      editPerson,
+      addPerson,
+      deletePerson,
+      person,
+      editCompany,
+      addCompany,
+      company,
+      printBack,
+      printFront,
+    },
+    setStates,
+  ] = useState({
+    editPerson: false,
+    addPerson: false,
+    deletePerson: false,
+    person: {},
+    editCompany: false,
+    addCompany: false,
+    company: {},
+    printBack: false,
+    printFront: false,
+  });
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   saveGames(); // Save games when form is submitted
-  // };
-
-  // const handleChange = (event) => {
-  //   setFormData(event.target.value);
-  // };
+  function clickIcon(e, person) {
+    let icon_id = e.target.id;
+    if (
+      icon_id === "editPerson" ||
+      icon_id === "deletePerson" ||
+      icon_id === "editCompany" ||
+      icon_id === "printFront"
+    ) {
+      setStates((pv) => {
+        return {
+          ...pv,
+          [icon_id]: true,
+          person: person,
+        };
+      });
+      console.log(e.target.id, person);
+    } else {
+      setStates((pv) => {
+        return {
+          ...pv,
+          [icon_id]: true,
+        };
+      });
+      console.log("else:", e.target.id, person);
+    }
+  }
 
   return (
     <div className="App">
-      <Navbar />
-      {mounted && Persons(data)}
+      <Navbar clickIcon={clickIcon} />
+      {(editPerson || addPerson) && (
+        <Popupform
+          setStates={setStates}
+          person={person}
+          companies={data.companies}
+          type={editPerson ? "edit" : "add"}
+        />
+      )}
+
+      {mounted && Persons(data, clickIcon)}
     </div>
   );
 }
 
 export default App;
 
-function Persons(data) {
+function Persons(data, clickIcon) {
   let { persons, payment_history, payment_status, cars, companies, other } =
     data;
   let restOfdata = {
@@ -72,6 +107,13 @@ function Persons(data) {
   };
 
   return persons.map((person, index) => {
-    return <Person key={index + "per"} data={restOfdata} person={person}/>;
+    return (
+      <Person
+        key={index + "per"}
+        data={restOfdata}
+        person={person}
+        clickIcon={clickIcon}
+      />
+    );
   });
 }

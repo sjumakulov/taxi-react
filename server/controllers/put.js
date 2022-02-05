@@ -186,7 +186,7 @@ exports.updatePerson = (req, res) => {
               delete cars[carIDBefore];
             }
 
-            cars[carIDBefore].other_drivers = other_drivers;
+            // cars[carIDBefore].other_drivers = other_drivers;
             if (cars[carIDNow]) {
               // put this person in this car's other_drivers:
               cars[carIDNow].other_drivers.push(person_id);

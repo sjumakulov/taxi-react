@@ -1,0 +1,52 @@
+.popupform-background{
+  /* display: none; */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 4;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.6);
+  }
+
+  .popupform-background form{
+  width: 900px;
+  margin: auto;
+  margin-top: 2%;
+  box-shadow: 0 0 6px 0 gray;
+  padding:  10px 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  overflow-y: scroll;
+  height: 85%;
+  width: 800px;
+}
+
+.popupform-background form table{
+  width: 100%;
+}
+.popupform-background form table td{
+  padding: 0 0 5px 24px;
+}
+.popupform-background form table td input{
+  width: 90%;
+padding: 5px;
+margin-bottom: 5px;
+border: none;
+background-color: #f1f1f1;
+}
+.popupform-background input:focus{
+  background-color: #ddd;
+outline: none;
+}
+
+.person-form-title{
+  text-align: center;
+  padding-top: 10px;
+}
+
+.popupform-background button {
+  width: 90%;
+  margin: 20px 0;
+}
+
