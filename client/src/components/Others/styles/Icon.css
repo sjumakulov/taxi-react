@@ -1,0 +1,28 @@
+i {
+  cursor: pointer;
+}
+
+.my-tooltip {
+  position: relative;
+}
+.my-tooltiptext {
+  font-family: sans-serif;
+  font-weight: normal;
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  border-radius: 2px;
+  padding: 5px 8px;
+  font-size: 12px;
+  z-index: 3;
+  white-space: pre;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.my-tooltip:hover .my-tooltiptext {
+  visibility: visible;
+}

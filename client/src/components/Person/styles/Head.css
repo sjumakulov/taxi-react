@@ -1,0 +1,30 @@
+
+/* collapsible */
+.head{
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 0 0 1px 0 rgb(51, 51, 51);
+  background-color: #ffffff;
+}
+.head-color-div{
+  width: 5px;
+}
+.head-data-div {
+  margin-left: 4px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-between;
+  width: 99%;
+}
+.active, .head-data-div:hover {
+  background-color: #fcfcfc;
+}
+
+.tool-div{
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 8%;
+  padding: 8px 0 0 0;
+  justify-content:space-around;
+}

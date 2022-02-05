@@ -1,0 +1,36 @@
+.navigation-bar{
+  height: 5rem;
+  width: 100%;
+}
+.navigation-list{
+  box-shadow: 0 0 3px 1px gray;
+  padding: 1.5rem 1rem 0.7rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items:center;
+  background-color: #3d3d3d;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+.navigation-item{
+  list-style: none;
+  margin-right: 2rem;
+}
+.navigation-item:first-child{
+  margin-right: auto;
+  margin-left: 1.5rem;
+  color: #F5F5F5;
+  cursor: pointer;
+}
+
+.navigation-item input{
+  margin-right: -5px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  padding: 2px 8px;
+}
+.navigation-item input:focus{
+  outline: none;
+  background-color: #f7f7f7;
+}

@@ -107,7 +107,6 @@ exports.updatePerson = (req, res) => {
                 .send(`This ${carIDNow} car already has main_driver!`);
               return;
             } else {
-              
               cars[carIDNow].main_driver = person_id;
               let other_drivers = cars[carIDNow].other_drivers.filter(
                 (driver) => {
@@ -173,7 +172,6 @@ exports.updatePerson = (req, res) => {
           if (sameCar) {
             // don't update cars.json.
           } else if (!sameCar) {
-            
             // remove this person from old car's other_drivers:
             let other_drivers = cars[carIDBefore].other_drivers.filter(
               (driver) => {
@@ -206,7 +204,6 @@ exports.updatePerson = (req, res) => {
           }
         }
       }
-
 
       // updating persons.csv:
       // updating start dates:
@@ -245,39 +242,36 @@ exports.updatePerson = (req, res) => {
 
 // update a company:
 exports.updateCompany = (req, res) => {
-  let {companies} = getData(["companies"]);
-  let {company_id, name, color} = req.body;
+  let { companies } = getData(["companies"]);
+  let { company_id, name, color } = req.body;
 
-  if(!company_id || !name || !color){
+  if (!company_id || !name || !color) {
     res.status(400).send("Empty content isn't allowed!");
     return;
-  }else if(!companies[company_id]){
+  } else if (!companies[company_id]) {
     res.status(400).send(`Company with this ${company_id} ID not found!`);
     return;
   }
 
-  companies[company_id] = {name: name, color: color};
+  companies[company_id] = { name: name, color: color };
   writeJSON(companies, "companies.json");
 
   res.status(201).send(`Company updated!`);
 };
 
-
 // update price:
 exports.updatePrice = (req, res) => {
-  let {other} = getData(["other"]),
-  newPrice = parseInt(req.body.price);
+  let { other } = getData(["other"]),
+    newPrice = parseInt(req.body.price);
 
-  if(!newPrice || newPrice<0){
+  if (!newPrice || newPrice < 0) {
     res.status(400).send("Invalid price provided!");
     return;
-  } 
+  }
 
   other.price = newPrice;
 
-  writeJSON(other ,"other.json");
+  writeJSON(other, "other.json");
 
   res.status(201).send(`Price set to ${newPrice}`);
 };
-
-

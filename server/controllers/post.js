@@ -134,7 +134,3 @@ exports.createPayTransaction = (req, res) => {
 
   res.status(201).send("Transaction added to: " + car_id);
 };
-
-
-
-

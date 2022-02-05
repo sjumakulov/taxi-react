@@ -67,7 +67,6 @@ exports.updateRecordInCSV = (oldRecordObject, updatedRecordObject) => {
 
 // Remove a line from CSV:=====================================
 exports.deleteRecordInCSV = (recordObject) => {
- 
   const stringifiedObject = stringifyCSV(recordObject);
 
   const options = {
@@ -120,73 +119,6 @@ exports.readJSON = (fileName) => {
 };
 // ===================================================
 
-// add object to JSON:========================================
-exports.addObjectToJSONFile = (object, fileName) => {
-  let folder = "database/";
-  let fileExists = fs.readdirSync(folder).includes(fileName);
-  let fileSize = fileExists ? fs.statSync(folder + fileName).size : 0;
-
-  if (fileExists && fileSize) {
-    appendObjectToJSON(object, fileName);
-  } else {
-    object["append"] = "before";
-    let stringifiedObject = JSON.stringify(object);
-
-    try {
-      fs.writeFileSync(folder + fileName, stringifiedObject, "utf8");
-    } catch (err) {
-      console.log(err);
-    }
-  }
-};
-// =================================================
-
-// Update one object in JSON file:===============================
-exports.updateObjectInJSON = (oldObject, updatedObject, fileName) => {
-  const old_stringifiedObject = JSON.stringify(oldObject).slice(1, -1);
-  const updated_stringifiedObject = JSON.stringify(updatedObject).slice(1, -1);
-
-  const options = {
-    files: "database/" + fileName,
-    from: old_stringifiedObject,
-    to: updated_stringifiedObject,
-  };
-
-  replace(options, (error, results) => {
-    if (error) {
-      return console.error("Error occurred:", error);
-    }
-    console.log("updateObjectInJSON results in: " + fileName, results);
-  });
-};
-//==================================================
-
-// Delete one object in JSON file:==============================
-exports.deleteObjectInJSON = (wholeJSON, ID, fileName) => {
-  let index = Object.keys(wholeJSON).indexOf(ID),
-    recordObject = { [ID]: { ...wholeJSON[ID] } };
-  let stringifiedObject = "";
-  if (index === 0) {
-    stringifiedObject = JSON.stringify(recordObject).slice(1, -1) + ",";
-  } else {
-    stringifiedObject = "," + JSON.stringify(recordObject).slice(1, -1);
-  }
-
-  const options = {
-    files: "database/" + fileName,
-    from: stringifiedObject,
-    to: "",
-  };
-
-  replace(options, (error, results) => {
-    if (error) {
-      return console.error("Error occurred:", error);
-    }
-    console.log("deleteObjectInJSON results in: " + fileName, results);
-  });
-};
-//===================================================
-
 //write whole JSON:========================================
 exports.writeJSON = (object, fileName) => {
   let folder = "database/";
@@ -200,22 +132,3 @@ exports.writeJSON = (object, fileName) => {
   }
 };
 // =================================================
-
-// Append object to JSON file:===============================
-function appendObjectToJSON(object, fileName) {
-  let stringifiedObject = JSON.stringify(object).slice(1, -1);
-
-  const options = {
-    files: "database/" + fileName,
-    from: '"append":"before"',
-    to: stringifiedObject + ',"append":"before"',
-  };
-
-  replace(options, (error, results) => {
-    if (error) {
-      return console.error("Error occurred:", error);
-    }
-    console.log("Replacement results:", results);
-  });
-}
-//==================================================

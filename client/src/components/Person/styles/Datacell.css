@@ -1,0 +1,67 @@
+
+.bold-font{
+  font-weight: bold;
+}
+
+/* Progress bars */
+.progress-div{
+  width: 100%;
+  background-color: #464444;
+  height: 2.5px;
+}
+.progress-bar{
+  height: 2.5px;
+  background-color: #0d9e00;
+}
+.progress-count{
+  font-size: 7px;
+  display: inline;
+}
+
+.column-div{
+  min-width: 10%;
+  padding: 4px 0 4px 0;
+}
+.name-div{
+  min-width: 21%;
+  padding: 4px 0 4px 0;
+}
+
+
+.proress-bar-wrap-div{
+  background-color: rgb(231, 231, 231);
+  width: 80%;
+  height: 2px;
+}
+.progress-bar-div{
+  background-color: #00c77b;
+  height: 2px;
+}
+
+
+
+/* .my-tooltip{
+  position: relative;
+}
+.my-tooltiptext{
+  font-family: sans-serif;
+  font-weight: normal;
+  display: none;
+  background-color: black;
+  color: #fff;
+  border-radius: 2px;
+  padding: 5px 8px;
+  font-size: 12px;
+  z-index: 3;
+  white-space: pre;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.my-tooltip:hover .my-tooltiptext{
+  display: block;
+} */
+
