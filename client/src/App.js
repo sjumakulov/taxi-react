@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Popupform from "./components/Navbar/Popupform";
 import Person from "./components/Person/Person";
+import Frontpage from "./components/Print/Frontpage";
+import Backpage from "./components/Print/Backpage";
 
 function App() {
   const [data, setData] = useState({});
@@ -64,7 +66,6 @@ function App() {
           person: person,
         };
       });
-      console.log(e.target.id, person);
     } else {
       setStates((pv) => {
         return {
@@ -72,13 +73,21 @@ function App() {
           [icon_id]: true,
         };
       });
-      console.log("else:", e.target.id, person);
     }
   }
+
 
   return (
     <div className="App">
       <Navbar clickIcon={clickIcon} />
+      {printFront && (
+        <Frontpage
+          setStates={setStates}
+          person={person}
+          company={data.companies[person.company_id].name}
+        />
+      )}
+      {printBack && <Backpage setStates={setStates} />}
       {(editPerson || addPerson) && (
         <Popupform
           setStates={setStates}

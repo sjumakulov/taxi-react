@@ -1,0 +1,114 @@
+.frontpage-background {
+  position: absolute;
+  height: 150%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  display: none;
+}
+
+.frontpage-wrap {
+  background-color: rgb(255, 255, 255);
+  width: 29.7cm;
+  height: 21cm;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.frontpage-wrap table td,
+.frontpage-wrap table th {
+  border: 1px solid;
+}
+
+/* front left side: */
+.front-left {
+  width: 49%;
+  text-align: center;
+  position: relative;
+}
+
+.front-left .td-stamp {
+  width: 127px;
+}
+.front-left tr {
+  height: 60px;
+  font-size: 15px;
+}
+
+.front-left hr {
+  margin-top: 25px;
+  border-top: 1px solid;
+}
+.front-left-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* front right side: */
+.front-right {
+  width: 49%;
+  position: relative;
+}
+.front-right-top {
+  width: 100%;
+  height: 30%;
+}
+.front-right-top h4 {
+  text-align: center;
+  margin-top: 10px;
+}
+.front-right-top div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.front-right-top img {
+  width: 440px;
+  height: 180px;
+  margin-left: 9%;
+}
+/* front-right-bottom */
+.front-right-bottom {
+  width: 100%;
+  height: 70%;
+}
+
+.dispecher-text {
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+}
+
+.front-right-bottom table {
+  margin: auto;
+  margin-top: 44px;
+  width: 90%;
+}
+.front-right tr {
+  height: 40px;
+}
+
+/* print media rule: */
+@media print {
+  .person-div, .navigation-bar {
+    display: none;
+  }
+
+  body {
+    transform: scale(0.98);
+    position: fixed;
+    width: 29.7cm;
+    height: 21cm;
+  }
+  .frontpage-background {
+    display: block;
+  }
+  @page {
+    size: A4 landscape;
+  }
+}
