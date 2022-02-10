@@ -8,7 +8,6 @@ import Backpage from "./components/Print/Backpage";
 function App() {
   const [data, setData] = useState({});
   let [mounted, setMounted] = useState(false);
-  // const [formData, setFormData] = useState("");
 
   useEffect(() => {
     fetchData(); // Fetch games when component is mounted
@@ -20,7 +19,9 @@ function App() {
     })
       .then((res) => res.json())
       .then((result) => {
-        setData(result);
+        setData(() => {
+          return result;
+        });
         setMounted(true);
       })
       .catch((err) => console.log("error"));
@@ -76,9 +77,8 @@ function App() {
     }
   }
 
-
   return (
-    <div className="App">
+    <div className="App" >
       <Navbar clickIcon={clickIcon} />
       {printFront && (
         <Frontpage
@@ -94,17 +94,19 @@ function App() {
           person={person}
           companies={data.companies}
           type={editPerson ? "edit" : "add"}
+          cars={data.cars}
+          fetchData={fetchData}
         />
       )}
 
-      {mounted && Persons(data, clickIcon)}
+      {mounted && <Persons data={data} clickIcon={clickIcon}/>}
     </div>
   );
 }
 
 export default App;
 
-function Persons(data, clickIcon) {
+function Persons({data, clickIcon}) {
   let { persons, payment_history, payment_status, cars, companies, other } =
     data;
   let restOfdata = {
@@ -115,14 +117,18 @@ function Persons(data, clickIcon) {
     price: other.price,
   };
 
-  return persons.map((person, index) => {
-    return (
-      <Person
-        key={index + "per"}
-        data={restOfdata}
-        person={person}
-        clickIcon={clickIcon}
-      />
-    );
-  });
+  return (
+    <div>
+      {persons.map((person, index) => {
+        return (
+          <Person
+            key={index + "per"}
+            data={restOfdata}
+            person={person}
+            clickIcon={clickIcon}
+          />
+        );
+      })}
+    </div>
+  );
 }

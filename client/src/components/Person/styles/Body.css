@@ -1,34 +1,31 @@
-
-.body{
+.body {
   display: flex;
   flex-wrap: nowrap;
-
 }
 
-.body-left-div{
+.body-left-div {
   width: 70%;
 }
 
-.body-right-div{
-  width: 30%;
-  border: 1px solid;
-
-}
-
-.body-left-div table{
+.body-left-div table {
   border-collapse: collapse;
   width: 100%;
   padding-left: 2px;
 }
 
-.body-left-div table td{
+.body-left-div table td {
   padding: 0 5px 10px;
 }
-.body-left-div table tr td:first-child{
+.body-left-div table tr td:first-child {
   width: 34%;
 }
 
-.pass-data li{
+.pass-data li {
   line-height: 1.2;
   font-size: 12px;
+}
+
+.body-right-div {
+  width: 30%;
+  border: 1px solid;
 }

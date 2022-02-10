@@ -96,7 +96,7 @@ function Body({ person, data }) {
                       <li>{person.pass_num}</li>
                       <li>{person.pass_giving_auth}</li>
                       <li>
-                        <b>Берилган сана:</b>
+                        <b>Берилган сана: </b>
                         <span>{person.pass_given_date}</span>
                       </li>
                     </ul>
@@ -116,7 +116,7 @@ function Body({ person, data }) {
         </table>
       </div>
 
-      <div className="body-right-div"></div>
+      {eval(person.is_main_driver) && <div className="body-right-div"></div>}
     </div>
   );
 }

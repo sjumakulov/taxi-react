@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import "./styles/Navbar.css";
 import Icon from "../Others/Icon";
 
-function Navbar({ clickIcon, printFunction }) {
+function Navbar({ clickIcon }) {
 
   return (
     <div>

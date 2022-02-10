@@ -43,7 +43,8 @@
   }
 
   body {
-    transform: scale(0.99);
+    transform: scale(0.96);
+    margin: 0;
     position: fixed;
     width: 29.7cm;
     height: 21cm;

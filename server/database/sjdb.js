@@ -68,7 +68,6 @@ exports.updateRecordInCSV = (oldRecordObject, updatedRecordObject) => {
 // Remove a line from CSV:=====================================
 exports.deleteRecordInCSV = (recordObject) => {
   const stringifiedObject = stringifyCSV(recordObject);
-
   const options = {
     files: "database/persons.csv",
     from: stringifiedObject,

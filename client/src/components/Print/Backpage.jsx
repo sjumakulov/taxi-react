@@ -65,7 +65,7 @@ function rows() {
 
   let half_1 = [];
   for (let i = 1; i <= 12; i++) {
-    let date = new Date(year, month + 1, i)
+    let date = new Date(year, month, i)
       .toLocaleString("Ru", { dat: "2-digit" })
       .slice(0, 10);
 

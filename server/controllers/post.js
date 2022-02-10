@@ -92,7 +92,6 @@ exports.createPerson = (req, res) => {
       res.status(201).send("Record created!");
     }
   }
-  // res.redirect("/");
 };
 
 //createCompany==========================================

@@ -61,7 +61,7 @@ function Frontpage({ person, company, setStates }) {
               <h5>Йўл Варақаси № 1</h5>
             </div>
             <h4>{company}</h4>
-            <img src={require("./car.jpg")} alt="car-img" />
+            <img src={require("./car.PNG")} alt="car-img" />
           </div>
           <div className="front-right-bottom">
             <table>
@@ -124,9 +124,9 @@ function Frontpage({ person, company, setStates }) {
                 </tr>
               </tbody>
             </table>
-            <h4 className="dispecher-text">
+            <h5 className="dispecher-text">
               Диспетчер: _____________________ М.П
-            </h4>
+            </h5>
           </div>
         </div>
       </div>

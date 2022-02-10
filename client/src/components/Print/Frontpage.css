@@ -16,7 +16,7 @@
   font-family: sans-serif;
   display: flex;
   justify-content: space-between;
-  margin: auto;
+  margin-top: 5px;
 }
 
 .frontpage-wrap table td,
@@ -41,7 +41,7 @@
 
 .front-left hr {
   margin-top: 25px;
-  border-top: 1px solid;
+  border-top: 1px solid black;
 }
 .front-left-bottom {
   position: absolute;
@@ -52,55 +52,44 @@
 /* front right side: */
 .front-right {
   width: 49%;
-  position: relative;
-}
-.front-right-top {
-  width: 100%;
-  height: 30%;
-}
-.front-right-top h4 {
-  text-align: center;
-  margin-top: 10px;
-}
-.front-right-top div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.front-right-top img {
-  width: 440px;
-  height: 180px;
-  margin-left: 9%;
-}
-/* front-right-bottom */
-.front-right-bottom {
-  width: 100%;
-  height: 70%;
-}
-
-.dispecher-text {
-  position: absolute;
-  bottom: 0;
-  left: 8%;
-}
-
-.front-right-bottom table {
-  margin: auto;
-  margin-top: 44px;
-  width: 90%;
 }
 .front-right tr {
   height: 40px;
 }
 
+.front-right-top h4 {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.front-right-top div {
+  display: flex;
+  justify-content: space-between;
+}
+.front-right-top img {
+  width: 440px;
+  height: 180px;
+  margin-left: 9%;
+  margin-bottom: 8px;
+}
+.front-right-bottom table {
+  width: 100%;
+}
+.dispecher-text {
+  text-align: center;
+  margin-top: 65px;
+}
+
 /* print media rule: */
 @media print {
-  .person-div, .navigation-bar {
+  .person-div,
+  .navigation-bar {
     display: none;
   }
 
   body {
-    transform: scale(0.98);
+    transform: scale(0.96);
+    margin: 0;
     position: fixed;
     width: 29.7cm;
     height: 21cm;

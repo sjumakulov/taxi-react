@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./styles/Popupform.css";
 
-function Popupform({ companies, person, type, setStates }) {
+function Popupform({ companies, person, cars, type, setStates, fetchData }) {
   let default_person = {};
 
   if (type === "edit") {
-    default_person = person;
+    default_person = { ...person };
+    default_person.is_main_driver = eval(default_person.is_main_driver);
   } else {
     default_person = {
       company_id: Object.keys(companies)[0],
@@ -34,8 +35,21 @@ function Popupform({ companies, person, type, setStates }) {
 
   let [inputData, setInputData] = useState(default_person);
 
+  let initVal;
+  if (inputData.is_main_driver && type === "edit") {
+    initVal = false;
+  } else if (!inputData.is_main_driver && type === "edit") {
+    initVal = true;
+  } else {
+    initVal = false;
+  }
+
+  let [checkBoxDisabled, setCheckBoxDisabled] = useState(initVal);
+
   function handleChange(e) {
     let { name, value } = e.target;
+
+    console.log(name, value)
     if (name === "is_main_driver") {
       setInputData((pv) => {
         return {
@@ -44,12 +58,59 @@ function Popupform({ companies, person, type, setStates }) {
         };
       });
     } else {
+      if (name === "car_num" || name === "license_category") {
+        value = value.toUpperCase();
+      }
       setInputData((pv) => {
         return {
           ...pv,
           [name]: value,
         };
       });
+    }
+    if (name === "car_num") {
+      if (type === "edit") {
+        let carID = value.replaceAll(" ", "").toUpperCase();
+        let thisCar = cars[carID];
+        if (thisCar) {
+          if (thisCar.main_driver) {
+            if (thisCar.main_driver === person.person_id) {
+              setCheckBoxDisabled(false);
+            } else {
+              setCheckBoxDisabled(true);
+              setInputData((pv) => {
+                return {
+                  ...pv,
+                  is_main_driver: false,
+                };
+              });
+            }
+          } else {
+            setCheckBoxDisabled(false);
+          }
+        } else {
+          setCheckBoxDisabled(false);
+        }
+      } else if (type === "add") {
+        let carID = value.replaceAll(" ", "");
+        let thisCar = cars[carID];
+
+        if (thisCar) {
+          if (thisCar.main_driver) {
+            setCheckBoxDisabled(true);
+            setInputData((pv) => {
+              return {
+                ...pv,
+                is_main_driver: false,
+              };
+            });
+          } else {
+            setCheckBoxDisabled(false);
+          }
+        } else {
+          setCheckBoxDisabled(false);
+        }
+      }
     }
   }
 
@@ -81,8 +142,16 @@ function Popupform({ companies, person, type, setStates }) {
           Accept: "application/json; charset=UTF-8",
         },
       })
-        .then((response) => response.text())
-        .then((res) => console.log(res))
+        .then((response) => {
+          console.log(response)
+          // this is not a solution:
+          if (response.status === 201) {
+            setTimeout(() => {
+              fetchData();
+            }, 0);
+          }
+          // ====================
+        })
         .catch((err) => console.log(err));
 
       if (type === "edit") {
@@ -269,7 +338,8 @@ function Popupform({ companies, person, type, setStates }) {
                   type="checkBox"
                   name="is_main_driver"
                   onChange={handleChange}
-                  checked={eval(inputData.is_main_driver)}
+                  checked={inputData.is_main_driver}
+                  disabled={checkBoxDisabled}
                 />
               </td>
             </tr>
@@ -305,12 +375,13 @@ function Popupform({ companies, person, type, setStates }) {
               <td>
                 <label>Паспорт берилган сана</label> <br />
                 <input
-                  type="text"
+                  type="date"
                   name="pass_given_date"
                   value={
                     inputData.pass_given_date ? inputData.pass_given_date : ""
                   }
                   onChange={handleChange}
+                  max={new Date().toISOString().slice(0, 10)}
                 />
               </td>
               <td>

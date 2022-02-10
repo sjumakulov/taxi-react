@@ -223,21 +223,15 @@ exports.updatePerson = (req, res) => {
 
       // updating person:
       let updatedPerson = { ...req.body, ...newStartDates };
+      console.log(updatedPerson)
+      console.log(thisPerson)
 
-      console.log(updatedPerson);
-      console.log(cars);
 
       updateRecordInCSV(thisPerson, updatedPerson);
       writeJSON(cars, "cars.json");
-
-      console.log("thisPerson", thisPerson);
-      console.log("req.body", req.body);
+      res.status(201).send("record updated!");
     }
-    res.status(201).send("Record updated!");
   }
-
-  // update person.csv:
-  // update cars.json:
 };
 
 // update a company:
