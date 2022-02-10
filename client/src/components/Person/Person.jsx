@@ -3,7 +3,7 @@ import Head from "./Head";
 import Body from "./Body";
 import "./styles/Person.css";
 
-function Person({ data, person, clickIcon }) {
+function Person({ data, person, clickIcon, fetchData }) {
   let [bodyvisible, setBodyvisible] = useState(false);
 
   function showBody(e) {
@@ -25,8 +25,9 @@ function Person({ data, person, clickIcon }) {
         showBody={showBody}
         clickIcon={clickIcon}
         bodyvisible={bodyvisible}
+        fetchData={fetchData}
       />
-      {bodyvisible && <Body person={person} data={data} />}
+      {bodyvisible && <Body person={person} data={data} fetchData={fetchData}/>}
     </div>
   );
 }

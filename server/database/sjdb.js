@@ -14,7 +14,7 @@ exports.readCSV = () => {
       skipHeader: false,
       returnObject: true,
       delimiter: ",",
-      trim: true,
+      trim: false,
     });
     return data;
   } else {

@@ -4,21 +4,27 @@ import Datacell from "./Datacell";
 import "./styles/Head.css";
 import Warning from "../Navbar/Warning";
 
+function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
+  let putyovkaGiven =
+    data.payment_status[person.car_num.replaceAll(" ", "")].putyovka_given;
 
-
-function Head({ data, person, showBody, clickIcon, bodyvisible}) {
+  console.log(putyovkaGiven);
   let color = data.companies[person.company_id].color;
   let [deleting, setDeleting] = useState(false);
 
-  function showWarning(){
+  function showWarning() {
     setDeleting(true);
   }
 
-
-
   return (
-    <div className={bodyvisible? "active head": "head" } onClick={showBody}>
-    { deleting && <Warning setDeleting = {setDeleting} person_id={person.person_id}/>}
+    <div className={bodyvisible ? "active head" : "head"} onClick={showBody}>
+      {deleting && (
+        <Warning
+          setDeleting={setDeleting}
+          person_id={person.person_id}
+          fetchData={fetchData}
+        />
+      )}
       <div className="head-color-div" style={{ backgroundColor: color }}></div>
       <div className="head-data-div">
         <Datacell classes="name-div" label="Ф.И.О:" value={person.name} />
@@ -47,13 +53,30 @@ function Head({ data, person, showBody, clickIcon, bodyvisible}) {
           }
         />
         <div className="tool-div">
-        
-          <Icon type="fas fa-print dont-show" color="#2499ff" tooltiptext="Печатлаш" handleClick={clickIcon} id="printFront" person={person}/>
+          {putyovkaGiven && (
+            <Icon
+              type="fas fa-print dont-show"
+              color="#2499ff"
+              tooltiptext="Печатлаш"
+              handleClick={clickIcon}
+              id="printFront"
+              person={person}
+            />
+          )}
 
-          <Icon type="fas fa-pencil dont-show" color="#ff9500" tooltiptext="Ўзгартириш"
-          handleClick={clickIcon} person={person} id="editPerson"/>
+          <Icon
+            type="fas fa-pencil dont-show"
+            color="#ff9500"
+            tooltiptext="Ўзгартириш"
+            handleClick={clickIcon}
+            person={person}
+            id="editPerson"
+          />
 
-          <Icon type="fas fa-user-minus dont-show" color="#e30505" tooltiptext="Ўчириш" 
+          <Icon
+            type="fas fa-user-minus dont-show"
+            color="#e30505"
+            tooltiptext="Ўчириш"
             handleClick={showWarning}
             id="deletePerson"
           />

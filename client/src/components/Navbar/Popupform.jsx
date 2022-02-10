@@ -35,21 +35,13 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
 
   let [inputData, setInputData] = useState(default_person);
 
-  let initVal;
-  if (inputData.is_main_driver && type === "edit") {
-    initVal = false;
-  } else if (!inputData.is_main_driver && type === "edit") {
-    initVal = true;
-  } else {
-    initVal = false;
-  }
-
-  let [checkBoxDisabled, setCheckBoxDisabled] = useState(initVal);
+  let [checkBoxDisabled, setCheckBoxDisabled] = useState(
+    initVal(inputData, cars, type)
+  );
 
   function handleChange(e) {
     let { name, value } = e.target;
 
-    console.log(name, value)
     if (name === "is_main_driver") {
       setInputData((pv) => {
         return {
@@ -143,12 +135,11 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
         },
       })
         .then((response) => {
-          console.log(response)
           // this is not a solution:
           if (response.status === 201) {
             setTimeout(() => {
               fetchData();
-            }, 0);
+            }, 50);
           }
           // ====================
         })
@@ -471,4 +462,20 @@ function options(companies, company_id, type) {
       </option>
     );
   });
+}
+
+function initVal(inputData, cars, type) {
+  let car = cars[inputData.car_num.replaceAll(" ", "")];
+  let main_driver = car ? car.main_driver : false;
+
+  let initVal = false;
+  if (inputData.is_main_driver && type === "edit") {
+    initVal = false;
+  } else if (!inputData.is_main_driver && type === "edit" && main_driver) {
+    initVal = true;
+  } else {
+    initVal = false;
+  }
+
+  return initVal;
 }

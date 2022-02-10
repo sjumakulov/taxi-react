@@ -34,7 +34,6 @@ exports.deletePerson = (req, res) => {
       });
 
       deleteRecordInCSV(thisPerson);
-      console.log(thisPerson)
       // delete person_id from cars:
       // delete car if THIS Person is the only driver:
       let car_id = thisPerson.car_num.replaceAll(" ", ""),

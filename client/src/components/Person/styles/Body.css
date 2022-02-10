@@ -25,7 +25,90 @@
   font-size: 12px;
 }
 
-.body-right-div {
+.payment-wrap-div {
   width: 30%;
-  border: 1px solid;
+  padding: 10px;
+  border-left: 1px solid rgb(212, 212, 212);
+}
+
+.payment-body-div {
+  min-height: 240px;
+  justify-content: center;
+}
+.payment-body-div table{
+  margin: auto;
+  margin-top: 10%;
+}
+.payment-body-div input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+.payment-body-div input:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.pay-btns-td {
+  text-align: right;
+}
+.pay-checkbox-td input{
+  background-color: red;
+  width: 20px;
+}
+
+.payment-bottom-div {
+  text-align: right;
+}
+
+.history-wrap-div{
+  height: 100%;
+}
+
+.history-top-div{
+  overflow-y:scroll;
+  height: 270px;
+  border-top: 1px solid rgb(204, 204, 204);
+  border-bottom: 1px solid rgb(204, 204, 204);
+
+}
+
+.right-align{
+  text-align: right;
+}
+
+.history-bottom-div{
+  padding-top: 5px;
+}
+
+.hist-td-sm{
+  width: 60px;
+}
+
+.table{
+  padding-right: 8px
+}
+
+.month h5, .month p{
+  margin: 0;
+  padding: 0;
+}
+
+.transaction{
+  margin-bottom: 20px;
+}
+
+.transaction-top h6, .transaction-bottom p{
+  margin: -8px;
+}
+
+.transaction-bottom{
+  display: flex;
+}
+
+.transaction-bottom div:last-child{
+  margin-left: 40px;
 }

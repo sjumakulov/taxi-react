@@ -209,23 +209,18 @@ exports.updatePerson = (req, res) => {
       // updating start dates:
       let receivedKeys = Object.keys(req.body);
       let newStartDates = {};
-      for (let i = 0; i < receivedKeys.length; i++) {
-        if (i > 14) {
-          let key = receivedKeys[i],
-            startDateKey = key.replace("expire", "start");
-          if (req.body[key] !== thisPerson[key]) {
-            newStartDates[startDateKey] = new Date().toLocaleString();
-          } else {
-            newStartDates[startDateKey] = thisPerson[startDateKey];
-          }
+      for (let i = 15; i <= 21; i++) {
+        let key = receivedKeys[i],
+          startDateKey = key.replace("expire", "start");
+        if (req.body[key] !== thisPerson[key]) {
+          newStartDates[startDateKey] = new Date().toLocaleString();
+        } else {
+          newStartDates[startDateKey] = thisPerson[startDateKey];
         }
       }
 
       // updating person:
       let updatedPerson = { ...req.body, ...newStartDates };
-      console.log(updatedPerson)
-      console.log(thisPerson)
-
 
       updateRecordInCSV(thisPerson, updatedPerson);
       writeJSON(cars, "cars.json");

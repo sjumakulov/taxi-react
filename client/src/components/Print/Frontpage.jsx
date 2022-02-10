@@ -13,7 +13,6 @@ function Frontpage({ person, company, setStates }) {
       window.print();
     }, 500);
     window.onafterprint = () => {
-      console.log("front done")
       setStates((pv) => {
         return {
           ...pv,

@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles/Warning.css";
 
-function Warning({ setDeleting, person_id }) {
+function Warning({ setDeleting, person_id, fetchData }) {
 
   function handleClick(e){
     let type = e.target.type;
@@ -14,8 +14,13 @@ function Warning({ setDeleting, person_id }) {
           Accept: "application/json; charset=UTF-8",
         },
       })
-        .then((response) => response.text())
-        .then((res) => console.log(res))
+        .then((response) =>{
+          if (response.status === 200) {
+            setTimeout(() => {
+              fetchData();
+            }, 50);
+            }
+        })
         .catch((err) => console.log(err));
     }
     setDeleting(false);

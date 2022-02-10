@@ -78,7 +78,7 @@ function App() {
   }
 
   return (
-    <div className="App" >
+    <div className="App">
       <Navbar clickIcon={clickIcon} />
       {printFront && (
         <Frontpage
@@ -99,14 +99,14 @@ function App() {
         />
       )}
 
-      {mounted && <Persons data={data} clickIcon={clickIcon}/>}
+      {mounted && <Persons data={data} clickIcon={clickIcon} fetchData={fetchData}/>}
     </div>
   );
 }
 
 export default App;
 
-function Persons({data, clickIcon}) {
+function Persons({ data, clickIcon, fetchData }) {
   let { persons, payment_history, payment_status, cars, companies, other } =
     data;
   let restOfdata = {
@@ -116,7 +116,6 @@ function Persons({data, clickIcon}) {
     companies: companies,
     price: other.price,
   };
-
   return (
     <div>
       {persons.map((person, index) => {
@@ -126,6 +125,7 @@ function Persons({data, clickIcon}) {
             data={restOfdata}
             person={person}
             clickIcon={clickIcon}
+            fetchData={fetchData}
           />
         );
       })}
