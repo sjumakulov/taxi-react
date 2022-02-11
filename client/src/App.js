@@ -4,6 +4,7 @@ import Popupform from "./components/Navbar/Popupform";
 import Person from "./components/Person/Person";
 import Frontpage from "./components/Print/Frontpage";
 import Backpage from "./components/Print/Backpage";
+import Stat from "./components/Navbar/Statistics";
 
 function App() {
   const [data, setData] = useState({});
@@ -27,30 +28,14 @@ function App() {
       .catch((err) => console.log("error"));
   };
 
-  let [
-    {
-      editPerson,
-      addPerson,
-      deletePerson,
-      person,
-      editCompany,
-      addCompany,
-      company,
-      printBack,
-      printFront,
-    },
-    setStates,
-  ] = useState({
-    editPerson: false,
-    addPerson: false,
-    deletePerson: false,
-    person: {},
-    editCompany: false,
-    addCompany: false,
-    company: {},
-    printBack: false,
-    printFront: false,
-  });
+  let [{ editPerson, addPerson, person, printBack, printFront }, setStates] =
+    useState({
+      editPerson: false,
+      addPerson: false,
+      person: {},
+      printBack: false,
+      printFront: false,
+    });
 
   function clickIcon(e, person) {
     let icon_id = e.target.id;
@@ -77,9 +62,12 @@ function App() {
     }
   }
 
+let [seeStat, setSeeStat] = useState(false);
+
+
   return (
     <div className="App">
-      <Navbar clickIcon={clickIcon} />
+      <Navbar clickIcon={clickIcon} setSeeStat={setSeeStat}/>
       {printFront && (
         <Frontpage
           setStates={setStates}
@@ -101,6 +89,8 @@ function App() {
           fetchData={fetchData}
         />
       )}
+
+      {seeStat && <Stat setSeeStat={setSeeStat} data={data} fetchData={fetchData}/>}
 
       {mounted && (
         <Persons data={data} clickIcon={clickIcon} fetchData={fetchData} />
@@ -137,3 +127,4 @@ function Persons({ data, clickIcon, fetchData }) {
     </div>
   );
 }
+

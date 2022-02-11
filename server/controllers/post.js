@@ -11,7 +11,6 @@ const {
 // ! Add person info in the same order! //
 // create one record in data files:==========================
 exports.createPerson = (req, res) => {
-  console.log("received data:", req.body)
   let car_id = req.body.car_num.replaceAll(" ", ""),
     company_id = req.body.company_id;
 
@@ -128,7 +127,10 @@ exports.createPayTransaction = (req, res) => {
     card: card || 0,
   };
   let car_id = car_num.replaceAll(" ", "");
-  addTransaction(car_id, putyovka_given, transaction);
+  if (parseInt(transaction.cash) === 0 && parseInt(transaction.card) === 0) {
+  } else {
+    addTransaction(car_id, putyovka_given, transaction);
+  }
   updatePaymentStatus(car_id, putyovka_given, transaction, company_id);
 
   res.status(201).send("Transaction added to: " + car_id);

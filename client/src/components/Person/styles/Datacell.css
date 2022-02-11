@@ -2,12 +2,14 @@
 .bold-font{
   font-weight: bold;
   color: rgb(68, 68, 68);
+
 }
 
 /* Progress bars */
 .column-div{
   min-width: 10%;
   padding: 4px 0 4px 0;
+
 }
 .name-div{
   min-width: 21%;

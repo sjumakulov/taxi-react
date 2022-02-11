@@ -129,7 +129,6 @@ exports.updatePaymentStatus = (
       balance: newBalance,
     };
   }
-  console.log(companyID, putyovkaNumber(companyID));
   // update payment status for this car:
   writeJSON(payment_status, "payment_status.json");
 };

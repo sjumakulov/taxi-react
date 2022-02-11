@@ -1,0 +1,77 @@
+.stat-wrap{
+  width: 450px;
+  height: 100%;
+  position: fixed;
+  z-index: 10;
+  top:0;
+  box-shadow: 0 0 2px rgb(150, 150, 150);
+  background-color: rgb(255, 255, 255);
+}
+
+.stat-top{
+  height: 10%;
+  padding: 10px;
+}
+.price-div input{
+  margin-left: 10px;
+  border-bottom: 1px solid rgb(187, 187, 187);
+  cursor: pointer;
+}
+
+.stat-body{
+  height: 85%;
+  overflow-y:auto;
+}
+
+.add-company-div{
+  width: fit-content;
+}
+.add-company-div input[type=color]{
+  width: 26px;
+  height: 26px;
+  border: none;
+  vertical-align: middle;
+}
+.add-company-div input[type=text]{
+  width: 280px;
+}
+
+.add-company-div button{
+  height: 26px;
+  vertical-align: middle;
+}
+
+.company-li{
+  width: fit-content;
+  padding-bottom: 20px;
+}
+
+.company-li input[type=color]{
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: none;
+  margin-left: 10px;
+}
+
+.company-li i{
+  font-size: 15px;
+  margin-left: 20px;
+}
+
+
+.input-disabled{
+  border: none;
+  background-color: #fff;
+  color: black;
+}
+
+.input-enabled{
+  border: none;
+  background-color: #f1f1f1;
+}
+
+.input-enabled:focus{
+  background-color: #ddd;
+  outline: none;
+}

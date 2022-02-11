@@ -2,14 +2,20 @@ import React from "react";
 import "./styles/Navbar.css";
 import Icon from "../Others/Icon";
 
-function Navbar({ clickIcon }) {
-
+function Navbar({ clickIcon, setSeeStat }) {
   return (
     <div>
       <nav className="navigation-bar">
         <ul className="navigation-list">
           <li className="navigation-item">
-            <h5 onClick={clickIcon} id="info">Маълумотлар</h5>
+            <h5
+              onClick={() => {
+                setSeeStat(true);
+              }}
+              id="info"
+            >
+              Маълумотлар
+            </h5>
           </li>
           <li className="navigation-item">
             <Icon

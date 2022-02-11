@@ -4,6 +4,7 @@ i {
 
 .my-tooltip {
   position: relative;
+  width: fit-content;
 }
 .my-tooltiptext {
   font-family: sans-serif;
