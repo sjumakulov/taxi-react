@@ -50,8 +50,6 @@ exports.addPayHistStatus = (car_id) => {
   // writing to payment_status.json:
   payment_status[car_id] = {
     balance: 0,
-    debt_start_date: "",
-    debt_deadline: "",
     putyovka_given: false,
   };
 
@@ -110,27 +108,64 @@ exports.updatePaymentStatus = (
   car_id,
   putyovka_given,
   transaction,
-  debt_deadline
+  companyID
 ) => {
   let { payment_status } = getData(["payment_status"]);
 
   let paymentAmount =
       (parseInt(transaction.cash) || 0) + (parseInt(transaction.card) || 0),
     currentBalance = parseInt(payment_status[car_id].balance) || 0,
-    newBalance = currentBalance + paymentAmount,
-    debt_start_date = debt_deadline ? new Date().toLocaleString() : "";
+    newBalance = currentBalance + paymentAmount;
 
-  payment_status[car_id] = {
-    putyovka_given: putyovka_given,
-    balance: newBalance,
-    debt_start_date: debt_start_date,
-    debt_deadline: debt_deadline,
-  };
-
+  if (eval(putyovka_given)) {
+    payment_status[car_id] = {
+      putyovka_given: putyovka_given,
+      balance: newBalance,
+      putyovka_num: putyovkaNumber(companyID),
+    };
+  } else {
+    payment_status[car_id] = {
+      putyovka_given: putyovka_given,
+      balance: newBalance,
+    };
+  }
+  console.log(companyID, putyovkaNumber(companyID));
   // update payment status for this car:
   writeJSON(payment_status, "payment_status.json");
 };
 //===========================================================
+
+// Function that tells how many people got putyovka in one company:
+function putyovkaNumber(companyID) {
+  let { persons, payment_status } = getData(["persons", "payment_status"]);
+  let carIDs = [],
+    count = 1,
+    putyovkaNums = [];
+
+  persons.map((person) => {
+    if (person.company_id === companyID) {
+      let carID = person.car_num.replaceAll(" ", "");
+      if (!carIDs.includes(carID)) {
+        if (eval(payment_status[carID].putyovka_given)) {
+          putyovkaNums.push(parseInt(payment_status[carID].putyovka_num));
+          count++;
+        }
+        carIDs.push(carID);
+      }
+    }
+  });
+  let maxPutyovkaNum = Math.max(...putyovkaNums);
+  if (maxPutyovkaNum !== putyovkaNums.length) {
+    for (let i = 1; i <= maxPutyovkaNum; i++) {
+      if (!putyovkaNums.includes(i)) {
+        count = i;
+        break;
+      }
+    }
+  }
+
+  return count;
+}
 
 // function that that gets called every month and updates payment_status.json:
 function setPaymentStatus() {

@@ -60,7 +60,6 @@ exports.createPerson = (req, res) => {
       // writing to cars.json:
       if (carExists) {
         // opening payment history and status for main driver:
-        addPayHistStatus(car_id);
         if (eval(recordObject.is_main_driver)) {
           cars[currentCarID].main_driver = person_id;
           writeJSON(cars, "cars.json");
@@ -116,7 +115,7 @@ exports.createCompany = (req, res) => {
 
 // createPayTransaction ==============================
 exports.createPayTransaction = (req, res) => {
-  let { car_num, putyovka_given, cash, card, debt_deadline } = req.body;
+  let { car_num, putyovka_given, cash, card, company_id } = req.body;
   let { cars } = getData(["cars"]);
   if (!car_num || !cars[car_num.replaceAll(" ", "")]) {
     res.status(400).send(`car with this ${car_num} number not found!`);
@@ -125,12 +124,12 @@ exports.createPayTransaction = (req, res) => {
 
   let transaction = {
     payment_date: new Date().toLocaleString(),
-    cash: cash,
-    card: card,
+    cash: cash || 0,
+    card: card || 0,
   };
   let car_id = car_num.replaceAll(" ", "");
   addTransaction(car_id, putyovka_given, transaction);
-  updatePaymentStatus(car_id, putyovka_given, transaction, debt_deadline);
+  updatePaymentStatus(car_id, putyovka_given, transaction, company_id);
 
   res.status(201).send("Transaction added to: " + car_id);
 };

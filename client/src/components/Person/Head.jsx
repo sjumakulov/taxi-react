@@ -8,7 +8,6 @@ function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
   let putyovkaGiven =
     data.payment_status[person.car_num.replaceAll(" ", "")].putyovka_given;
 
-  console.log(putyovkaGiven);
   let color = data.companies[person.company_id].color;
   let [deleting, setDeleting] = useState(false);
 

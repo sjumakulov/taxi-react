@@ -85,6 +85,9 @@ function App() {
           setStates={setStates}
           person={person}
           company={data.companies[person.company_id].name}
+          putyovkaNum={
+            data.payment_status[person.car_num.replaceAll(" ", "")].putyovka_num
+          }
         />
       )}
       {printBack && <Backpage setStates={setStates} />}
@@ -99,7 +102,9 @@ function App() {
         />
       )}
 
-      {mounted && <Persons data={data} clickIcon={clickIcon} fetchData={fetchData}/>}
+      {mounted && (
+        <Persons data={data} clickIcon={clickIcon} fetchData={fetchData} />
+      )}
     </div>
   );
 }

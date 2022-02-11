@@ -7,21 +7,20 @@ function Body({ person, data, fetchData }) {
   let carID = person.car_num.replaceAll(" ", "");
   let paymentHistory = data.payment_history[new Date().getFullYear()][carID];
   let company = data.companies[person.company_id].name;
-  let thisPaymentStatus =
-    data.payment_status[carID];
+  let thisPaymentStatus = data.payment_status[carID];
 
   let [paying, setPaying] = useState(false);
   let [payInput, setPayInput] = useState({
     car_num: person.car_num,
+    company_id: person.company_id,
     putyovka_given: thisPaymentStatus.putyovka_given,
-    cash: 0,
-    card: 0,
+    cash: "",
+    card: "",
   });
 
   function handleChange(e) {
     let { name, value } = e.target;
     if (name === "putyovka") {
-      console.log(name, value);
       setPayInput((pv) => {
         return {
           ...pv,
@@ -29,7 +28,6 @@ function Body({ person, data, fetchData }) {
         };
       });
     } else {
-      console.log(name, value);
       setPayInput((pv) => {
         return {
           ...pv,
@@ -52,7 +50,7 @@ function Body({ person, data, fetchData }) {
     } else if (name === "save") {
       handleSubmit(payInput, fetchData);
       setPaying(false);
-    }else if("back"){
+    } else if ("back") {
       setSeeHistory(false);
     }
   }
@@ -171,18 +169,38 @@ function Body({ person, data, fetchData }) {
 
       {eval(person.is_main_driver) && (
         <div className="payment-wrap-div">
-          {seeHistory && <History handleClick={handleClick} paymentHistory={paymentHistory}/>}
+          {seeHistory && (
+            <History
+              handleClick={handleClick}
+              paymentHistory={paymentHistory}
+            />
+          )}
           {!seeHistory && (
             <div>
-              <div className="payment-top-div">
-                {!paying && (
-                  <h5>
-                    Баланс:{" "}
-                    {parseInt(thisPaymentStatus.balance).toLocaleString()} сўм
-                  </h5>
-                )}
-              </div>
+              <div className="payment-top-div"></div>
               <div className="payment-body-div">
+                {!paying && (
+                  <div className="balance-div">
+                    <h5>
+                      {parseInt(thisPaymentStatus.balance).toLocaleString()} сўм
+                    </h5>
+                    <hr />
+                    <button
+                      name="pay"
+                      className="btn btn-sm btn-outline-success"
+                      onClick={handleClick}
+                    >
+                      Тўлаш
+                    </button>
+                    <button
+                    name="history"
+                    className="btn btn-sm btn-link"
+                    onClick={handleClick}
+                  >
+                    Тўловлар тарихи
+                  </button>
+                  </div>
+                )}
                 {paying && (
                   <table>
                     <tbody>
@@ -195,7 +213,7 @@ function Body({ person, data, fetchData }) {
                             type="checkBox"
                             onChange={handleChange}
                             checked={payInput.putyovka_given}
-                          ></input>{" "}
+                          />
                         </td>
                       </tr>
                       <tr>
@@ -213,6 +231,8 @@ function Body({ person, data, fetchData }) {
                             type="number"
                             value={payInput.cash}
                             onChange={handleChange}
+                            placeholder="0"
+                            step="10000"
                           />
                         </td>
                       </tr>
@@ -226,6 +246,8 @@ function Body({ person, data, fetchData }) {
                             type="number"
                             value={payInput.card}
                             onChange={handleChange}
+                            placeholder="0"
+                            step="10000"
                           />
                         </td>
                       </tr>
@@ -252,24 +274,6 @@ function Body({ person, data, fetchData }) {
                   </table>
                 )}
               </div>
-              {!paying && (
-                <div className="payment-bottom-div">
-                  <button
-                    name="history"
-                    className="btn btn-sm btn-link"
-                    onClick={handleClick}
-                  >
-                    Тўловлар тарихи
-                  </button>
-                  <button
-                    name="pay"
-                    className="btn btn-sm btn-outline-primary"
-                    onClick={handleClick}
-                  >
-                    Тўлаш
-                  </button>
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -303,5 +307,3 @@ function handleSubmit(payInput, fetchData) {
     })
     .catch((err) => console.log(err));
 }
-
-

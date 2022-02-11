@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Frontpage.css";
 
-function Frontpage({ person, company, setStates }) {
+function Frontpage({ person, company, setStates, putyovkaNum }) {
   console.log("hello", person);
 
   let m = new Date().toLocaleString("Ru", { month: "long" });
@@ -57,7 +57,7 @@ function Frontpage({ person, company, setStates }) {
               <h5>
                 «{month}» {year} йил
               </h5>
-              <h5>Йўл Варақаси № 1</h5>
+              <h5>Йўл Варақаси № {putyovkaNum}</h5>
             </div>
             <h4>{company}</h4>
             <img src={require("./car.PNG")} alt="car-img" />
