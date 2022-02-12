@@ -2,7 +2,11 @@ import React from "react";
 import "./styles/Navbar.css";
 import Icon from "../Others/Icon";
 
-function Navbar({ clickIcon, setSeeStat }) {
+function Navbar({ clickIcon, setSeeStat, setSearchInput }) {
+  function handleChange(e) {
+    setSearchInput(e.target.value);
+  }
+
   return (
     <div>
       <nav className="navigation-bar">
@@ -41,17 +45,7 @@ function Navbar({ clickIcon, setSeeStat }) {
               color="#ff9500"
               tooltiptext="'Excel'да олиш"
               id="excel"
-              handleClick={clickIcon}
-            />
-          </li>
-
-          <li className="navigation-item">
-            <Icon
-              type="fas fa-sort"
-              color="#ff9500"
-              tooltiptext="Филтерлаш"
-              id="filter"
-              handleClick={clickIcon}
+              handleClick={download}
             />
           </li>
 
@@ -61,6 +55,7 @@ function Navbar({ clickIcon, setSeeStat }) {
               placeholder="Излаш..."
               name="search"
               id="searchInput"
+              onChange={handleChange}
             />
           </li>
         </ul>
@@ -70,3 +65,19 @@ function Navbar({ clickIcon, setSeeStat }) {
 }
 
 export default Navbar;
+
+function download() {
+  fetch("http://localhost:9000/download", {
+    method: "GET",
+  })
+    .then((res) => {
+      res.blob().then((blob) => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = "маълумотлар.xlsx";
+        a.click();
+      });
+    })
+    .catch((err) => console.log("error"));
+}

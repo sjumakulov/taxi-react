@@ -2,7 +2,6 @@ const { deleteRecordInCSV, writeJSON } = require("../database/sjdb");
 const { getData } = require("./functions");
 
 exports.deletePerson = (req, res) => {
-
   let { person_id } = req.body;
 
   if (!person_id) {
@@ -23,10 +22,6 @@ exports.deletePerson = (req, res) => {
 
       return;
     } else if (thisPerson && thisCar) {
-      const { payment_status, payment_history } = getData([
-        "payment_status",
-        "payment_history",
-      ]);
 
       // delete from persons.csv:
       let [thisPerson] = persons.filter((person) => {
@@ -65,7 +60,6 @@ exports.deletePerson = (req, res) => {
       writeJSON(cars, "cars.json");
 
       res.status(200).send("record deleted!");
-
     }
   }
 };

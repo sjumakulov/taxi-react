@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
-const path = require('path'); 
 const cors = require('cors');
 
 const app = express();
@@ -25,8 +24,6 @@ app.use(express.json());
 
 // loading Routes:
 app.use('/', require('./routes/router'))
-
-
 
 
 

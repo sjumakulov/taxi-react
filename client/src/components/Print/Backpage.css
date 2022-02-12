@@ -18,11 +18,12 @@
   justify-content: space-between;
   margin-top: 5px;
 }
-.backpage-wrap td, .backpage-wrap th{
+.backpage-wrap td,
+.backpage-wrap th {
   border: 1px solid;
 }
 
-.back-half{
+.back-half {
   width: 49%;
   font-size: 15px;
   text-align: center;
@@ -31,14 +32,14 @@
 .backpage-wrap .td-stamp {
   width: 127px;
 }
-.backpage-wrap tr{
+.backpage-wrap tr {
   height: 60px;
 }
 
-
 /* print media rule: */
 @media print {
-  .person-div, .navigation-bar {
+  .person-div,
+  .navigation-bar {
     display: none;
   }
 

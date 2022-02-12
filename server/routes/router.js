@@ -1,5 +1,5 @@
 const express = require("express");
-const { getRecords } = require("../controllers/get");
+const { getRecords, download } = require("../controllers/get");
 const { deletePerson } = require("../controllers/delete");
 const {
   updateCompany,
@@ -18,6 +18,9 @@ const route = express.Router();
 // API:
 // get all records from database:
 route.get("/", getRecords);
+
+// download records in csv file:
+route.get("/download", download);
 
 // create one record to database:
 route.post("/persons", createPerson);

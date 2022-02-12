@@ -6,9 +6,8 @@ function Backpage({ setStates }) {
     setTimeout(() => {
       window.print();
     }, 500);
-    
+
     window.onafterprint = () => {
-      console.log("print done")
       setStates((pv) => {
         return {
           ...pv,
@@ -16,7 +15,6 @@ function Backpage({ setStates }) {
         };
       });
     };
-    
   }, [setStates]);
   return (
     <div className="backpage-background">

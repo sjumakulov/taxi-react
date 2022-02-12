@@ -193,12 +193,12 @@ function Body({ person, data, fetchData }) {
                       Тўлаш
                     </button>
                     <button
-                    name="history"
-                    className="btn btn-sm btn-link"
-                    onClick={handleClick}
-                  >
-                    Тўловлар тарихи
-                  </button>
+                      name="history"
+                      className="btn btn-sm btn-link"
+                      onClick={handleClick}
+                    >
+                      Тўловлар тарихи
+                    </button>
                   </div>
                 )}
                 {paying && (

@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import "./Frontpage.css";
 
 function Frontpage({ person, company, setStates, putyovkaNum }) {
-  console.log("hello", person);
-
   let m = new Date().toLocaleString("Ru", { month: "long" });
   let month = m.replace(m[0], m[0].toUpperCase());
   let year = new Date().getFullYear();
@@ -158,7 +156,6 @@ function rows() {
       </tr>
     );
   }
-  console.log(rows);
 
   return rows;
 }

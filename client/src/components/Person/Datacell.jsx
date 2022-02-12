@@ -34,7 +34,7 @@ function Datacell({ label, value, classes, progress, startDate }) {
   return (
     <div className={classes}>
       <div className="bold-font">{label}</div>
-      <div className="my-tooltip" style={{width: "100%"}}>
+      <div className="my-tooltip" style={{ width: "100%" }}>
         {value}
         {progress && (
           <div ref={progressRef} className="proress-bar-wrap-div ">

@@ -134,7 +134,7 @@ exports.updatePaymentStatus = (
 };
 //===========================================================
 
-// Function that tells how many people got putyovka in one company:
+// Function that numbers putyovkas in one company:
 function putyovkaNumber(companyID) {
   let { persons, payment_status } = getData(["persons", "payment_status"]);
   let carIDs = [],
@@ -195,4 +195,27 @@ function setPaymentStatus() {
   }
 }
 setPaymentStatus();
+//===================================================
+
+
+// function that that gets called every two years and deletes old history in payment_history.json:
+function cleanUpHistory(){
+  let { other } = getData(["other"]);
+
+  let timeLeft = new Date(other.last_day_year).getTime() - new Date().getTime();
+
+  if(timeLeft<0){
+    let {payment_history} = getData(["payment_history"]);
+    let yearToDelete = new Date(other.last_day_year).getFullYear()-1;
+
+    delete payment_history[yearToDelete];
+  
+    other.last_day_year = new Date(new Date().getFullYear()+1, 11, 0);
+    
+    writeJSON(other, "other.json");
+    writeJSON(payment_history, "payment_history.json");
+  }
+}
+
+cleanUpHistory();
 //===================================================

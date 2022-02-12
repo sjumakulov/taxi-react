@@ -62,12 +62,17 @@ function App() {
     }
   }
 
-let [seeStat, setSeeStat] = useState(false);
+  let [seeStat, setSeeStat] = useState(false);
 
+  let [searchInput, setSearchInput] = useState("");
 
   return (
     <div className="App">
-      <Navbar clickIcon={clickIcon} setSeeStat={setSeeStat}/>
+      <Navbar
+        clickIcon={clickIcon}
+        setSeeStat={setSeeStat}
+        setSearchInput={setSearchInput}
+      />
       {printFront && (
         <Frontpage
           setStates={setStates}
@@ -90,10 +95,17 @@ let [seeStat, setSeeStat] = useState(false);
         />
       )}
 
-      {seeStat && <Stat setSeeStat={setSeeStat} data={data} fetchData={fetchData}/>}
+      {seeStat && (
+        <Stat setSeeStat={setSeeStat} data={data} fetchData={fetchData} />
+      )}
 
       {mounted && (
-        <Persons data={data} clickIcon={clickIcon} fetchData={fetchData} />
+        <Persons
+          data={data}
+          clickIcon={clickIcon}
+          fetchData={fetchData}
+          searchInput={searchInput}
+        />
       )}
     </div>
   );
@@ -101,7 +113,7 @@ let [seeStat, setSeeStat] = useState(false);
 
 export default App;
 
-function Persons({ data, clickIcon, fetchData }) {
+function Persons({ data, clickIcon, fetchData, searchInput }) {
   let { persons, payment_history, payment_status, cars, companies, other } =
     data;
   let restOfdata = {
@@ -121,10 +133,10 @@ function Persons({ data, clickIcon, fetchData }) {
             person={person}
             clickIcon={clickIcon}
             fetchData={fetchData}
+            searchInput={searchInput}
           />
         );
       })}
     </div>
   );
 }
-

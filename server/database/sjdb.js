@@ -21,7 +21,7 @@ exports.readCSV = () => {
     return [];
   }
 };
-//==============================================================
+//================================================================
 
 // Appending one record to persons.csv:========================
 const createCsvWriter = csvWriterModule.createObjectCsvWriter;
@@ -96,6 +96,7 @@ function stringifyCSV(object) {
   return csvStringifier.stringifyRecords(records);
 }
 //==============================================================
+
 
 // JSON file manipulation functions:
 // Read whole JSON file: ==========================
