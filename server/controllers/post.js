@@ -122,7 +122,7 @@ exports.createPayTransaction = (req, res) => {
   }
 
   let transaction = {
-    payment_date: new Date().toLocaleString(),
+    payment_date: new Date().toISOString().slice(0,10).split("-").reverse().join(".") + " | " + new Date().toTimeString().slice(0,8),
     cash: cash || 0,
     card: card || 0,
   };

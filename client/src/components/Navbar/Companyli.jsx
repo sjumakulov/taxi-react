@@ -155,6 +155,7 @@ function statistics(data) {
       }
       return null;
     });
+    return null;
   });
   return info;
 }

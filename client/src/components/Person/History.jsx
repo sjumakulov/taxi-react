@@ -51,9 +51,10 @@ function History({ paymentHistory, handleClick }) {
         <button
           onClick={handleClick}
           name="back"
-          className="btn btn-outline-danger btn-sm"
+          className="btn btn-outline-primary btn-sm"
+          style={{border: "none"}}
         >
-          Орқага
+          <i class="fas fa-chevron-double-left"></i>
         </button>
       </div>
     </div>

@@ -132,7 +132,7 @@ function Stat({ setSeeStat, data, fetchData }) {
       <hr />
 
       <ol className="stat-body">
-        {Object.keys(companies).map((companyID, index) => {
+        {Object.keys(companies).map((companyID) => {
           return (
             <Companyli
               key={companyID}
@@ -182,7 +182,7 @@ function useOutsideAlerter(ref, setState, type, newPrice, oldPrice, fetchData) {
 }
 
 function handleSubmit(inputData, fetchData, type) {
-  if (inputData) {
+  if (type === "price" || (type === "company" && inputData.name !== "")) {
     let method = type === "price" ? "PUT" : "POST",
       route = type === "price" ? "/price" : "/companies";
     fetch("http://localhost:9000" + route, {

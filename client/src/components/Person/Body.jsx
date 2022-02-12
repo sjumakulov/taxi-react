@@ -40,7 +40,7 @@ function Body({ person, data, fetchData }) {
   let [seeHistory, setSeeHistory] = useState(false);
 
   function handleClick(e) {
-    let { name, value } = e.target;
+    let { name } = e.target;
     if (name === "pay") {
       setPaying(true);
     } else if (name === "history") {
