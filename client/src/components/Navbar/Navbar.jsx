@@ -71,13 +71,15 @@ function download() {
     method: "GET",
   })
     .then((res) => {
-      res.blob().then((blob) => {
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        a.href = url;
-        a.download = "маълумотлар.xlsx";
-        a.click();
-      });
+      if(res.status === 200){
+        res.blob().then((blob) => {
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = "маълумотлар.xlsx";
+          a.click();
+        });
+      }
     })
     .catch((err) => console.log("error"));
 }

@@ -106,7 +106,7 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleClick = (e) => {
     if (e.target.type === "button") {
       if (type === "edit") {
         setStates((pv) => {
@@ -119,31 +119,7 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
       }
     } else {
       e.preventDefault();
-
-      let method = type === "edit" ? "PUT" : "POST";
-      let URL =
-        type === "edit"
-          ? "http://localhost:9000/person"
-          : "http://localhost:9000/persons";
-
-      fetch(URL, {
-        method: method,
-        body: JSON.stringify(inputData),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => {
-          // this is not a solution:
-          if (response.status === 201) {
-            setTimeout(() => {
-              fetchData();
-            }, 50);
-          }
-          // ====================
-        })
-        .catch((err) => console.log(err));
+      handleSubmit(inputData, type, fetchData);
 
       if (type === "edit") {
         setStates((pv) => {
@@ -159,7 +135,7 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
 
   return (
     <div className="popupform-background">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleClick}>
         <h2 className="person-form-title">
           {type === "add" ? "Малумот қўшиш" : "Маълумотларни Ўзгартириш"}
         </h2>
@@ -427,7 +403,7 @@ function Popupform({ companies, person, cars, type, setStates, fetchData }) {
               <td>
                 <button
                   type="button"
-                  onClick={handleSubmit}
+                  onClick={handleClick}
                   className="btn btn-danger "
                 >
                   Бекор Қилиш
@@ -478,4 +454,31 @@ function initVal(inputData, cars, type) {
   }
 
   return initVal;
+}
+
+function handleSubmit(inputData, type, fetchData) {
+  let method = type === "edit" ? "PUT" : "POST";
+  let URL =
+    type === "edit"
+      ? "http://localhost:9000/person"
+      : "http://localhost:9000/persons";
+
+  fetch(URL, {
+    method: method,
+    body: JSON.stringify(inputData),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      Accept: "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => {
+      // this is not a solution:
+      if (response.status === 201) {
+        setTimeout(() => {
+        fetchData();
+        }, 100);
+      }
+      // ====================
+    })
+    .catch((err) => console.log(err));
 }

@@ -110,7 +110,7 @@ function handleSubmit(inputData, oldData, fetchData) {
         if (response.status === 201) {
           setTimeout(() => {
             fetchData();
-          }, 50);
+          }, 100);
         }
         // ====================
       })

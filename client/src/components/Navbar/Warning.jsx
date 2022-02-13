@@ -17,7 +17,7 @@ function Warning({ setDeleting, person_id, fetchData }) {
           if (response.status === 200) {
             setTimeout(() => {
               fetchData();
-            }, 50);
+            }, 100);
           }
         })
         .catch((err) => console.log(err));

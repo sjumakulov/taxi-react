@@ -5,6 +5,7 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
   let m = new Date().toLocaleString("Ru", { month: "long" });
   let month = m.replace(m[0], m[0].toUpperCase());
   let year = new Date().getFullYear();
+  let image = require("./car.PNG");
 
   useEffect(() => {
     setTimeout(() => {
@@ -18,7 +19,7 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
         };
       });
     };
-  }, [setStates]);
+  }, [setStates, image]);
 
   return (
     <div className="frontpage-background">
@@ -58,7 +59,7 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
               <h5>Йўл Варақаси № {putyovkaNum}</h5>
             </div>
             <h4>{company}</h4>
-            <img src={require("./car.PNG")} alt="car-img" />
+            <img src={image} alt="car-img" />
           </div>
           <div className="front-right-bottom">
             <table>
