@@ -54,7 +54,7 @@ function History({ paymentHistory, handleClick }) {
           className="btn btn-outline-primary btn-sm"
           style={{border: "none"}}
         >
-          <i class="fas fa-chevron-double-left"></i>
+          <i className="fas fa-chevron-double-left"></i>
         </button>
       </div>
     </div>

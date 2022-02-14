@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "./styles/Popupform.css";
 
-function Popupform({ companies, person, cars, type, setStates, fetchData }) {
+function Popupform({
+  companies,
+  person,
+  cars,
+  type,
+  setStates,
+  fetchData,
+  setData,
+}) {
   let default_person = {};
 
   if (type === "edit") {
@@ -475,7 +483,10 @@ function handleSubmit(inputData, type, fetchData) {
       // this is not a solution:
       if (response.status === 201) {
         setTimeout(() => {
-        fetchData();
+          fetchData();
+          setTimeout(() => {
+            fetchData();
+          }, 1000);
         }, 100);
       }
       // ====================

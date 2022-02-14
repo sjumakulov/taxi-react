@@ -183,6 +183,7 @@ function setPaymentStatus() {
           parseInt(currentStatus.balance) - (parseInt(other.price) || 0);
         currentStatus.balance = newBalance;
         currentStatus.putyovka_given = false;
+        delete currentStatus["putyovka_num"];
       }
     }
 
