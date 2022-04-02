@@ -11,7 +11,7 @@ function History({ paymentHistory, handleClick }) {
                 new Date().getFullYear(),
                 parseInt(month),
                 0
-              ).toLocaleString("Ru", { month: "long" });
+              ).toLocaleString("En", { month: "long" });
 
               let thisMonthHistory = paymentHistory[month],
                 putyovkaGiven = thisMonthHistory.putyovka_given,
@@ -24,10 +24,10 @@ function History({ paymentHistory, handleClick }) {
                       </div>
                       <div className="transaction-bottom">
                         <div>
-                          <p>Нақд: {transaction.cash}</p>
+                          <p>Cash: {transaction.cash}</p>
                         </div>
                         <div>
-                          <p>Карта: {transaction.card}</p>
+                          <p>Card: {transaction.card}</p>
                         </div>
                       </div>
                     </div>
@@ -38,7 +38,7 @@ function History({ paymentHistory, handleClick }) {
                 <div className="month" key={index}>
                   <div className="right-align">
                     <h5>{monthName}</h5>
-                    <p>{putyovkaGiven && "Путёвка берилган"}</p>
+                    <p>{putyovkaGiven && "Permission given"}</p>
                   </div>
                   {transactions.reverse()}
                 </div>

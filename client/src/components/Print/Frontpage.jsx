@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./Frontpage.css";
 
 function Frontpage({ person, company, setStates, putyovkaNum }) {
-  let m = new Date().toLocaleString("Ru", { month: "long" });
+  let m = new Date().toLocaleString("En", { month: "long" });
   let month = m.replace(m[0], m[0].toUpperCase());
   let year = new Date().getFullYear();
   let image = require("./car.PNG");
@@ -28,19 +28,18 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
           <table>
             <tbody>
               <tr>
-                <th>Сана</th>
-                <th>Хайдовчи Ахволи</th>
-                <th>Транспорт ҳолати</th>
-                <th>Кунлик тўлов</th>
-                <th>Чиқиш вақти</th>
-                <th>Кириш вақти</th>
+              <th>Date</th>
+                <th>Driver's health state</th>
+                <th>Vehicle's state</th>
+                <th>Daily payment</th>
+                <th>Leaving time</th>
+                <th>Time arrived</th>
               </tr>
               {rows()}
             </tbody>
           </table>
           <div className="front-left-bottom">
-            <h5>Ижара солиғини ўз вақтида тўлашни унутманг!</h5>
-            <h5>Алохида белгилар ва огоҳлантиришлар:</h5>
+            <h5>Warnings given:</h5>
             <hr />
             <hr />
             <hr />
@@ -54,9 +53,9 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
           <div className="front-right-top">
             <div className="">
               <h5>
-                «{month}» {year} йил
+                «{month}» {year}
               </h5>
-              <h5>Йўл Варақаси № {putyovkaNum}</h5>
+              <h5>Permission number: {putyovkaNum}</h5>
             </div>
             <h4>{company}</h4>
             <img src={image} alt="car-img" />
@@ -66,64 +65,64 @@ function Frontpage({ person, company, setStates, putyovkaNum }) {
               <tbody>
                 <tr>
                   <td colSpan="2">
-                    Йўналиш номи: <b>{person.route}</b>
+                    Route: <b>{person.route}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Ҳайдовчи: <b>{person.name}</b>
+                    Driver's name: <b>{person.name}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Автомобил русуми: <b>{person.car_type}</b>
+                    Car brand: <b>{person.car_type}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Давлат рақами: <b>{person.car_num}</b>
+                    Car number: <b>{person.car_num}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Ҳайдовчилик гувоҳномаси: <b>{person.license_num}</b>
+                    Driver's lisence number: <b>{person.license_num}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Тоифаси: <b>{person.license_category}</b>
+                    Driver's lisence category: <b>{person.license_category}</b>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    Лицензия АТ <b>№ {person.permission_num}</b>
+                    Permission number: <b>№ {person.permission_num}</b>
                   </td>
                   <td>
-                    Муддати: <b>{person.permission_expire_date}</b>
+                  Permission expire date: <b>{person.permission_expire_date}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Ижара шартнома муддати: <b>{person.contract_expire_date}</b>
+                    Rent expire date: <b>{person.contract_expire_date}</b>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    Полис муддати: <b>{person.polis_expire_date}</b>
+                    Polis expire date: <b>{person.polis_expire_date}</b>
                   </td>
                   <td>
-                    Газ акт: <b>{person.gas_tank_expire_date}</b>
+                    Gas tank expire date: <b>{person.gas_tank_expire_date}</b>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="2">
-                    Тех. Курик: <b>{person.checkup_expire_date}</b>
+                    Tech. checkup expire date: <b>{person.checkup_expire_date}</b>
                   </td>
                 </tr>
               </tbody>
             </table>
             <h5 className="dispecher-text">
-              Диспетчер: _____________________ М.П
+              Dispacher: _____________________
             </h5>
           </div>
         </div>
@@ -143,7 +142,7 @@ function rows() {
   let rows = [];
   for (let i = 24; i <= numOfdays; i++) {
     let date = new Date(year, month, i)
-      .toLocaleString("Ru", { dat: "2-digit" })
+      .toLocaleString("En", { dat: "2-digit" })
       .slice(0, 10);
 
     rows.push(

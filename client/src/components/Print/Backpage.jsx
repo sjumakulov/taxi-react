@@ -23,12 +23,12 @@ function Backpage({ setStates }) {
           <table>
             <tbody>
               <tr>
-                <th>Сана</th>
-                <th>Хайдовчи Ахволи</th>
-                <th>Транспорт ҳолати</th>
-                <th>Кунлик тўлов</th>
-                <th>Чиқиш вақти</th>
-                <th>Кириш вақти</th>
+                <th>Date</th>
+                <th>Driver's health state</th>
+                <th>Vehicle's state</th>
+                <th>Daily payment</th>
+                <th>Leaving time</th>
+                <th>Time arrived</th>
               </tr>
               {rows()[0]}
             </tbody>
@@ -38,12 +38,12 @@ function Backpage({ setStates }) {
           <table>
             <tbody>
               <tr>
-                <th>Сана</th>
-                <th>Хайдовчи Ахволи</th>
-                <th>Транспорт ҳолати</th>
-                <th>Кунлик тўлов</th>
-                <th>Чиқиш вақти</th>
-                <th>Кириш вақти</th>
+              <th>Date</th>
+                <th>Driver's health state</th>
+                <th>Vehicle's state</th>
+                <th>Daily payment</th>
+                <th>Leaving time</th>
+                <th>Time arrived</th>
               </tr>
               {rows()[1]}
             </tbody>
@@ -64,7 +64,7 @@ function rows() {
   let half_1 = [];
   for (let i = 1; i <= 12; i++) {
     let date = new Date(year, month, i)
-      .toLocaleString("Ru", { dat: "2-digit" })
+      .toLocaleString("En", { dat: "2-digit" })
       .slice(0, 10);
 
     half_1.push(

@@ -18,14 +18,14 @@ function Navbar({ clickIcon, setSeeStat, setSearchInput }) {
               }}
               id="info"
             >
-              Маълумотлар
+              Companies
             </h5>
           </li>
           <li className="navigation-item">
             <Icon
               type="fas fa-user-plus"
               color="#06ab00"
-              tooltiptext="Малумот Қўшиш"
+              tooltiptext="Add a driver"
               handleClick={clickIcon}
               id="addPerson"
             />
@@ -34,7 +34,7 @@ function Navbar({ clickIcon, setSeeStat, setSearchInput }) {
             <Icon
               type="fas fa-print"
               color="#2499ff"
-              tooltiptext="Печатлаш"
+              tooltiptext="Print"
               id="printBack"
               handleClick={clickIcon}
             />
@@ -43,7 +43,7 @@ function Navbar({ clickIcon, setSeeStat, setSearchInput }) {
             <Icon
               type="fal fa-table"
               color="#ff9500"
-              tooltiptext="'Excel'да олиш"
+              tooltiptext="Take data in Excel"
               id="excel"
               handleClick={download}
             />
@@ -52,7 +52,7 @@ function Navbar({ clickIcon, setSeeStat, setSearchInput }) {
           <li className="navigation-item">
             <input
               type="text"
-              placeholder="Излаш..."
+              placeholder="Search..."
               name="search"
               id="searchInput"
               onChange={handleChange}
@@ -76,7 +76,7 @@ function download() {
           let url = window.URL.createObjectURL(blob);
           let a = document.createElement("a");
           a.href = url;
-          a.download = "маълумотлар.xlsx";
+          a.download = "Data.xlsx";
           a.click();
         });
       }

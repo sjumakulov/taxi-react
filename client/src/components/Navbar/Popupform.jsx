@@ -145,7 +145,7 @@ function Popupform({
     <div className="popupform-background">
       <form onSubmit={handleClick}>
         <h2 className="person-form-title">
-          {type === "add" ? "Малумот қўшиш" : "Маълумотларни Ўзгартириш"}
+          {type === "add" ? "Add a driver" : "Edit driver's information"}
         </h2>
         <table>
           <tbody>
@@ -160,7 +160,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>АЛицензия Т №</label> <br />
+                <label>Persmission Number</label> <br />
                 <input
                   type="text"
                   name="permission_num"
@@ -174,13 +174,13 @@ function Popupform({
 
             <tr>
               <td>
-                <label>Фирма номи</label> <br />
+                <label>Company name</label> <br />
                 <select name="company_id" onChange={handleChange}>
                   {options(companies, person.company_id, type)}
                 </select>
               </td>
               <td>
-                <label>Лицензия муддати</label> <br />
+                <label>Permission expire date</label> <br />
                 <input
                   type="date"
                   name="permission_expire_date"
@@ -196,7 +196,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Йўналиш номи</label> <br />
+                <label>Route</label> <br />
                 <input
                   type="text"
                   name="route"
@@ -205,7 +205,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Ижара шартнома муддати</label> <br />
+                <label>Contract expire date</label> <br />
                 <input
                   type="date"
                   name="contract_expire_date"
@@ -221,7 +221,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Автомобил русуми</label> <br />
+                <label>Car brand</label> <br />
                 <input
                   type="text"
                   name="car_type"
@@ -230,7 +230,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Полис муддати</label> <br />
+                <label>Polis expire date</label> <br />
                 <input
                   type="date"
                   name="polis_expire_date"
@@ -246,7 +246,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Давлат рақами</label> <br />
+                <label>Car number</label> <br />
                 <input
                   type="text"
                   name="car_num"
@@ -256,7 +256,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Газ балон муддат</label> <br />
+                <label>Gas tank expire date</label> <br />
                 <input
                   type="date"
                   name="gas_tank_expire_date"
@@ -272,7 +272,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Ҳайдовчилик гувоҳномаси</label> <br />
+                <label>Driver's lisence number</label> <br />
                 <input
                   type="text"
                   name="license_num"
@@ -281,7 +281,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Тех. Курик муддат</label> <br />
+                <label>Technical checkup expire date</label> <br />
                 <input
                   type="date"
                   name="checkup_expire_date"
@@ -297,7 +297,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Тоифаси</label> <br />
+                <label>Driver's lisence category</label> <br />
                 <input
                   type="text"
                   name="license_category"
@@ -308,7 +308,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Асосий Шофер?</label> <br />
+                <label>Main driver?</label> <br />
                 <input
                   type="checkBox"
                   name="is_main_driver"
@@ -320,12 +320,12 @@ function Popupform({
             </tr>
             <tr>
               <td colSpan={2}>
-                <h3 className="person-form-title">Қўшимча Маълумотлар</h3>
+                <h3 className="person-form-title">Optional information</h3>
               </td>
             </tr>
             <tr>
               <td>
-                <label>Паспорт сериаси & рақами</label> <br />
+                <label>Passport number</label> <br />
                 <input
                   type="text"
                   name="pass_num"
@@ -334,7 +334,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Тиббий кўрик муддати:</label> <br />
+                <label>Medical checkup expire date</label> <br />
                 <input
                   type="date"
                   name="med_expire_date"
@@ -348,7 +348,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Паспорт берилган сана</label> <br />
+                <label>Passport given date</label> <br />
                 <input
                   type="date"
                   name="pass_given_date"
@@ -360,7 +360,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Меҳнат шартнома муддати:</label> <br />
+                <label>Work contract expire date</label> <br />
                 <input
                   type="date"
                   name="work_contract_expire_date"
@@ -376,7 +376,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Паспорт берувчи маъмурият</label> <br />
+                <label>Passport giving authority</label> <br />
                 <input
                   type="text"
                   name="pass_giving_auth"
@@ -387,7 +387,7 @@ function Popupform({
                 />
               </td>
               <td>
-                <label>Манзил</label> <br />
+                <label>Address</label> <br />
                 <input
                   type="text"
                   name="address"
@@ -398,7 +398,7 @@ function Popupform({
             </tr>
             <tr>
               <td>
-                <label>Тел рақам</label> <br />
+                <label>Phone number</label> <br />
                 <input
                   type="text"
                   name="phone"
@@ -414,12 +414,12 @@ function Popupform({
                   onClick={handleClick}
                   className="btn btn-danger "
                 >
-                  Бекор Қилиш
+                  Cancel
                 </button>
               </td>
               <td>
                 <button type="submit" className="btn btn-primary">
-                  Сақлаш
+                  Save
                 </button>
               </td>
             </tr>

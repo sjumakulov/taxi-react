@@ -49,19 +49,19 @@ function Companyli({ company, fetchData, data }) {
 
       <ul>
         <li>
-          Хайдовчилар сони <br />
+          Number of Drivers <br />
           <h5>{statistics(data)[company.company_id].numOfDrivers}</h5>
         </li>
         <li>
-          Машиналар сони <br />
+          Number of Cars <br />
           <h5>{statistics(data)[company.company_id].numOfCars}</h5>
         </li>
         <li>
-          Путёвка олган машиналар сони <br />
+          Number of cars that have permission <br />
           <h5>{statistics(data)[company.company_id].numOfPermittedCars}</h5>
         </li>
         <li>
-          Қарздорлиги бор машиналар сони <br />
+          Number of cars that have debt <br />
           <h5>{statistics(data)[company.company_id].numOfCarsWithDebt}</h5>
         </li>
       </ul>

@@ -26,25 +26,25 @@ function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
       )}
       <div className="head-color-div" style={{ backgroundColor: color }}></div>
       <div className="head-data-div">
-        <Datacell classes="name-div" label="Ф.И.О:" value={person.name} />
+        <Datacell classes="name-div" label="Name" value={person.name} />
         <Datacell
           classes="column-div"
-          label="Ҳайдовчи гувоҳномаси:"
+          label="Driver's lisence"
           value={person.license_num}
         />
         <Datacell
           classes="column-div"
-          label="Тоифаси:"
+          label="Driver's lisence category"
           value={person.license_category}
         />
         <Datacell
           classes="column-div"
-          label="Автомобил рақами:"
+          label="Car number"
           value={person.car_num}
         />
         <Datacell
           classes="column-div"
-          label="Асосий Шофер:"
+          label="Main driver"
           value={
             person.is_main_driver === "true" && (
               <i className="fas fa-check-circle"></i>
@@ -56,7 +56,7 @@ function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
             <Icon
               type="fas fa-print dont-show"
               color="#2499ff"
-              tooltiptext="Печатлаш"
+              tooltiptext="Print"
               handleClick={clickIcon}
               id="printFront"
               person={person}
@@ -66,7 +66,7 @@ function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
           <Icon
             type="fas fa-pencil dont-show"
             color="#ff9500"
-            tooltiptext="Ўзгартириш"
+            tooltiptext="Edit"
             handleClick={clickIcon}
             person={person}
             id="editPerson"
@@ -75,7 +75,7 @@ function Head({ data, person, showBody, clickIcon, bodyvisible, fetchData }) {
           <Icon
             type="fas fa-user-minus dont-show"
             color="#e30505"
-            tooltiptext="Ўчириш"
+            tooltiptext="Delete"
             handleClick={showWarning}
             id="deletePerson"
           />

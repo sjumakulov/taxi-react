@@ -29,7 +29,7 @@ function Warning({ setDeleting, person_id, fetchData }) {
     <div className="warning-background dont-show">
       <div className="warning-wrap dont-show">
         <h6 className="dont-show">
-          Ростдан ҳам бу маълумотни ўчиришни ҳохлайсизми?
+          Do you want to delete this driver's information?
         </h6>
         <button
           type="button"
@@ -37,7 +37,7 @@ function Warning({ setDeleting, person_id, fetchData }) {
           className="btn btn-success dont-show"
         >
           {" "}
-          Ёъқ{" "}
+          No{" "}
         </button>
         <button
           type="submit"
@@ -45,7 +45,7 @@ function Warning({ setDeleting, person_id, fetchData }) {
           className="btn btn-outline-danger dont-show"
         >
           {" "}
-          Ҳа{" "}
+          Yes{" "}
         </button>
       </div>
     </div>

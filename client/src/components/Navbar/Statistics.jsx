@@ -53,7 +53,7 @@ function Stat({ setSeeStat, data, fetchData }) {
       <div className="stat-top">
         <div className="price-div">
           <label>
-            <h5>Нарх:</h5>
+            <h5>Price:</h5>
           </label>
           <span
             onClick={() => {

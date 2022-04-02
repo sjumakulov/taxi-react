@@ -25,7 +25,7 @@ function Datacell({ label, value, classes, progress, startDate }) {
           tooltiptext = progressRef.current.querySelector(".my-tooltiptext");
 
         progressBarDiv.style.width = progress + "%";
-        tooltiptext.innerText = `${daysLeft} кун, ${hoursLeft} соат, ${minutesLeft} минут, ${secondsLeft} секунд қолди`;
+        tooltiptext.innerText = `${daysLeft} d., ${hoursLeft} h., ${minutesLeft} m., ${secondsLeft} s. left`;
       }
       return () => clearInterval(interval);
     }
@@ -36,7 +36,7 @@ function Datacell({ label, value, classes, progress, startDate }) {
       <div className="bold-font">{label}</div>
       <div className="my-tooltip" style={{ width: "100%" }}>
         {value}
-        {progress && (
+        {(progress && value) && (
           <div ref={progressRef} className="proress-bar-wrap-div ">
             <div className="progress-bar-div"></div>
             <span className="my-tooltiptext"></span>

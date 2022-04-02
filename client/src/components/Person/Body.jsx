@@ -63,13 +63,13 @@ function Body({ person, data, fetchData }) {
             <tr>
               <td>
                 <Datacell
-                  label="Лицензия АТ №:"
+                  label="Permission number"
                   value={person.permission_num}
                 />
               </td>
               <td>
                 <Datacell
-                  label="Лицензия муддати:"
+                  label="Permission expire date"
                   value={person.permission_expire_date}
                   progress={true}
                   startDate={person.permission_start_date}
@@ -77,7 +77,7 @@ function Body({ person, data, fetchData }) {
               </td>
               <td>
                 <Datacell
-                  label="Тиббий кўрик муддати:"
+                  label="Med. checkup expire date"
                   value={person.med_expire_date}
                   progress={true}
                   startDate={person.med_start_date}
@@ -86,11 +86,11 @@ function Body({ person, data, fetchData }) {
             </tr>
             <tr>
               <td>
-                <Datacell label="Автомобил русуми:" value={person.car_type} />
+                <Datacell label="Car brand" value={person.car_type} />
               </td>
               <td>
                 <Datacell
-                  label="Тех. курик муддат:"
+                  label="Tech. checkup expire date"
                   value={person.checkup_expire_date}
                   progress={true}
                   startDate={person.checkup_start_date}
@@ -98,7 +98,7 @@ function Body({ person, data, fetchData }) {
               </td>
               <td>
                 <Datacell
-                  label="Меҳнат шартнома муддати:"
+                  label="Work contract expire date"
                   value={person.work_contract_expire_date}
                   progress={true}
                   startDate={person.work_contract_start_date}
@@ -107,47 +107,47 @@ function Body({ person, data, fetchData }) {
             </tr>
             <tr>
               <td>
-                <Datacell label="Йўналиш номи:" value={person.route} />
+                <Datacell label="Route" value={person.route} />
               </td>
               <td>
                 <Datacell
-                  label="Ижара шартнома муддати:"
+                  label="Rent contract expire date"
                   value={person.contract_expire_date}
                   progress={true}
                   startDate={person.contract_start_date}
                 />
               </td>
               <td>
-                <Datacell label="Манзил" value={person.address} />
+                <Datacell label="Address" value={person.address} />
               </td>
             </tr>
             <tr>
               <td>
-                <Datacell label="Фирма номи:" value={company} />
+                <Datacell label="Company name" value={company} />
               </td>
               <td>
                 <Datacell
-                  label="Полис муддати:"
+                  label="Polis expire date"
                   value={person.polis_expire_date}
                   progress={true}
                   startDate={person.polis_start_date}
                 />
               </td>
               <td>
-                <Datacell label="Телефон:" value={person.phone} />
+                <Datacell label="Phone number" value={person.phone} />
               </td>
             </tr>
             <tr>
               <td>
                 <Datacell
                   classes="pass-data"
-                  label="Паспорт Малумотлари"
+                  label="Passport information"
                   value={
                     <ul>
                       <li>{person.pass_num}</li>
                       <li>{person.pass_giving_auth}</li>
                       <li>
-                        <b>Берилган сана: </b>
+                        <b>Pass. given date </b>
                         <span>{person.pass_given_date}</span>
                       </li>
                     </ul>
@@ -156,7 +156,7 @@ function Body({ person, data, fetchData }) {
               </td>
               <td>
                 <Datacell
-                  label="Газ балон муддат:"
+                  label="Gas tank expire date"
                   value={person.gas_tank_expire_date}
                   progress={true}
                   startDate={person.gas_tank_start_date}
@@ -190,14 +190,14 @@ function Body({ person, data, fetchData }) {
                       className="btn btn-sm btn-outline-success"
                       onClick={handleClick}
                     >
-                      Тўлаш
+                      Pay
                     </button>
                     <button
                       name="history"
                       className="btn btn-sm btn-link"
                       onClick={handleClick}
                     >
-                      Тўловлар тарихи
+                      Payment history
                     </button>
                   </div>
                 )}
@@ -206,7 +206,7 @@ function Body({ person, data, fetchData }) {
                     <tbody>
                       <tr>
                         <td colSpan={2} className="pay-checkbox-td">
-                          <label>Путёвка берилди: </label>{" "}
+                          <label>Permission given </label>{" "}
                           <input
                             name="putyovka"
                             value={payInput.putyovka_given}
@@ -223,7 +223,7 @@ function Body({ person, data, fetchData }) {
                       </tr>
                       <tr>
                         <td>
-                          <label name="cash">Нақд: </label>
+                          <label name="cash">Cash: </label>
                         </td>
                         <td>
                           <input
@@ -232,13 +232,13 @@ function Body({ person, data, fetchData }) {
                             value={payInput.cash}
                             onChange={handleChange}
                             placeholder="0"
-                            step="10000"
+                            step="10"
                           />
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <label name="card">Карта: </label>
+                          <label name="card">Card: </label>
                         </td>
                         <td>
                           <input
@@ -247,7 +247,7 @@ function Body({ person, data, fetchData }) {
                             value={payInput.card}
                             onChange={handleChange}
                             placeholder="0"
-                            step="10000"
+                            step="10"
                           />
                         </td>
                       </tr>
@@ -259,14 +259,14 @@ function Body({ person, data, fetchData }) {
                             name="cancel"
                             className="btn btn-outline-danger btn-sm"
                           >
-                            Бекор қилиш
+                            Cancel
                           </button>
                           <button
                             onClick={handleClick}
                             name="save"
                             className="btn btn-primary btn-sm"
                           >
-                            Сақлаш
+                            Save
                           </button>
                         </td>
                       </tr>

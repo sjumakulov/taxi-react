@@ -84,7 +84,7 @@ exports.addTransaction = (car_id, putyovka_given, transaction) => {
   let { payment_history } = getData(["payment_history"]);
   let date = new Date(),
     thisYear = date.getFullYear(),
-    thisMonth = date.getMonth();
+    thisMonth = date.getMonth() + 1;
 
   if (payment_history[thisYear][car_id][thisMonth]) {
     payment_history[thisYear][car_id][thisMonth].putyovka_given =
@@ -172,6 +172,7 @@ function setPaymentStatus() {
     lastDayOfMonth = new Date(other.last_day_month).getTime(),
     now = new Date().getTime(),
     timeLeft = lastDayOfMonth - now;
+
   if (timeLeft < 0) {
     let { payment_status } = getData(["payment_status"]),
       IDs = Object.keys(payment_status);
@@ -195,6 +196,7 @@ function setPaymentStatus() {
     writeJSON(other, "other.json");
   }
 }
+
 setPaymentStatus();
 //===================================================
 
